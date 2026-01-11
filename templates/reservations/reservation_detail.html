@@ -1,0 +1,239 @@
+<!-- templates/reservations/reservation_detail.html -->
+{% extends "core/base.html" %}
+{%load static %}
+{% load humanize %}
+{% block title %}Reservation {{ reservation.id }}{% endblock %}
+
+{% block page_title %}Reservation #{{ reservation.id|truncatechars:8 }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/reservation_detail.css' %}">
+
+<!-- Page Subtitle with Guest Name -->
+<div class="page-subtitle">
+    <p>{{ reservation.guest.first_name }} {{ reservation.guest.last_name }}</p>
+</div>
+
+<!-- Action Buttons -->
+<div class="reservation-actions">
+    {% if reservation.status == 'checked_in' %}
+    <a href="{% url 'check_out' reservation.pk %}" class="btn-action btn-checkout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Check Out
+    </a>
+    {% elif reservation.status == 'confirmed' %}
+    <a href="{% url 'check_in' reservation.pk %}" class="btn-action btn-checkin">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        Check In
+    </a>
+    <form action="{% url 'cancel_reservation' reservation.pk %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn-action btn-cancel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Cancel
+        </button>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Payment Status Alert -->
+{% if reservation.status == 'confirmed' %}
+<div class="payment-alert-section">
+    {% if reservation.folio_set.exists %}
+        {% with folio=reservation.folio_set.first %}
+            {% if folio.status == 'settled' or folio.status == 'partial' %}
+            <div class="alert-card alert-success">
+                <div class="alert-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4>Payment Confirmed</h4>
+                    <p>Guest can now be checked in</p>
+                </div>
+                <a href="{% url 'check_in' reservation.pk %}" class="alert-action-btn">
+                    Check In Guest
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </a>
+            </div>
+            {% else %}
+            <div class="alert-card alert-warning">
+                <div class="alert-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4>Payment Required</h4>
+                    <p>Balance: ₦{{ folio.balance|floatformat:2|intcomma }}</p>
+                </div>
+                <a href="{% url 'folio_detail' folio.pk %}" class="alert-action-btn">
+                    Complete Payment
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+        {% endwith %}
+    {% else %}
+    <div class="alert-card alert-info">
+        <div class="alert-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+        </div>
+        <div class="alert-content">
+            <h4>Ready for Payment</h4>
+            <p>Proceed to payment and check-in</p>
+        </div>
+        <a href="{% url 'initiate_checkin_payment' reservation.pk %}" class="alert-action-btn">
+            Proceed to Payment
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- Main Content Grid -->
+<div class="detail-grid">
+    <!-- Reservation Details Card -->
+    <div class="detail-card detail-card-main">
+        <div class="card-header">
+            <h2 class="card-title">Reservation Details</h2>
+            <div class="status-badge status-{{ reservation.status }}">
+                {{ reservation.get_status_display }}
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Reservation ID</div>
+                <div class="info-value info-value-mono">#{{ reservation.id }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Room Number</div>
+                <div class="info-value">{{ reservation.room.room_number }}</div>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Check In</div>
+                <div class="info-value">{{ reservation.check_in_date|date:"M d, Y" }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Check Out</div>
+                <div class="info-value">{{ reservation.check_out_date|date:"M d, Y" }}</div>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Number of Guests</div>
+                <div class="info-value">{{ reservation.number_of_guests }} adults</div>
+            </div>
+            
+            {% if reservation.number_of_children %}
+            <div class="info-item">
+                <div class="info-label">Children</div>
+                <div class="info-value">{{ reservation.number_of_children }} children</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if reservation.special_requests %}
+        <div class="info-highlight">
+            <div class="highlight-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+            </div>
+            <div class="highlight-content">
+                <div class="highlight-label">Special Requests</div>
+                <div class="highlight-value">{{ reservation.special_requests }}</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar Cards -->
+    <div class="detail-sidebar">
+        <!-- Guest Information Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <h3 class="card-title">Guest Information</h3>
+            </div>
+            
+            <div class="guest-profile">
+                <div class="guest-avatar-large">{{ reservation.guest.first_name.0 }}{{ reservation.guest.last_name.0 }}</div>
+                <div class="guest-details">
+                    <div class="guest-name">{{ reservation.guest.first_name }} {{ reservation.guest.last_name }}</div>
+                    <div class="guest-email">{{ reservation.guest.email }}</div>
+                    <div class="guest-phone">{{ reservation.guest.phone }}</div>
+                </div>
+            </div>
+            
+            <a href="{% url 'guest_detail' reservation.guest.pk %}" class="view-profile-btn">
+                View Full Profile
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </a>
+        </div>
+        
+        <!-- Billing Summary Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <h3 class="card-title">Billing Summary</h3>
+            </div>
+            
+            <div class="billing-item billing-total">
+                <span class="billing-label">Total Price</span>
+                <span class="billing-value">₦{{ reservation.total_price|floatformat:2|intcomma }}</span>
+            </div>
+            
+            {% if reservation.folio_set.exists %}
+            <div class="billing-divider"></div>
+            <a href="{% url 'folio_detail' reservation.folio_set.first.pk %}" class="billing-link">
+                View Folio Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

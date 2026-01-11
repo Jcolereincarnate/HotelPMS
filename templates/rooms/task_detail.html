@@ -1,0 +1,125 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
+
+<div class="page-header">
+    <div class="header-info">
+        <h1>Task Detail</h1>
+        <p>Housekeeping Task Information</p>
+    </div>
+    <div class="header-actions">
+        <a href="{% url 'update_task' task.id %}" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Update Status
+        </a>
+        <a href="{% url 'housekeeping_tasks' %}" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back to Tasks
+        </a>
+    </div>
+</div>
+
+<div class="task-detail-grid">
+    <div class="main-content">
+        <div class="card task-card">
+            <div class="task-header">
+                <div class="task-title-group">
+                    <h2 class="task-title">{{ task.task_type }}</h2>
+                    <span class="room-badge">{{ task.room }}</span>
+                </div>
+                <div class="badge-group">
+                    {% if task.priority == 'high' %}
+                    <span class="priority-badge priority-high">{{ task.get_priority_display|upper }}</span>
+                    {% elif task.priority == 'medium' %}
+                    <span class="priority-badge priority-medium">{{ task.get_priority_display|upper }}</span>
+                    {% else %}
+                    <span class="priority-badge priority-low">{{ task.get_priority_display|upper }}</span>
+                    {% endif %}
+                    
+                    {% if task.status == 'pending' %}
+                    <span class="status-badge status-pending">{{ task.get_status_display }}</span>
+                    {% elif task.status == 'in_progress' %}
+                    <span class="status-badge status-progress">{{ task.get_status_display }}</span>
+                    {% elif task.status == 'completed' %}
+                    <span class="status-badge status-completed">{{ task.get_status_display }}</span>
+                    {% else %}
+                    <span class="status-badge status-cancelled">{{ task.get_status_display }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="task-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Description</span>
+                        <p class="info-value">{{ task.description|default:"No description provided" }}</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Assigned To</span>
+                        <div class="assigned-user">
+                            <div class="user-avatar">{{ task.assigned_to.first_name.0 }}{{ task.assigned_to.last_name.0 }}</div>
+                            <span class="info-value">{{ task.assigned_to.get_full_name }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Due Date</span>
+                        <p class="info-value">{{ task.due_date|date:"M d, Y H:i" }}</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Created At</span>
+                        <p class="info-value">{{ task.created_at|date:"M d, Y H:i" }}</p>
+                    </div>
+                    
+                    {% if task.notes %}
+                    <div class="info-item info-item-full">
+                        <span class="info-label">Notes</span>
+                        <p class="info-value">{{ task.notes }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sidebar-content">
+        <div class="card action-card">
+            <h3 class="card-title">Task Actions</h3>
+            <div class="action-list">
+                <a href="{% url 'update_task' task.id %}" class="action-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Update Status</span>
+                </a>
+                
+                <a href="{% url 'edit_task' task.id %}" class="action-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    <span>Edit Task</span>
+                </a>
+                
+                <a href="{% url 'delete_task' task.id %}" class="action-item action-danger">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    <span>Delete Task</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

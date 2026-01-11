@@ -1,0 +1,269 @@
+/* ========================================
+   AI RECOMMENDATIONS CSS
+   static/css/ai_recommendations.css
+   ======================================== */
+
+.page-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.btn-secondary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-action:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+
+/* ========================================
+   RECOMMENDATIONS GRID
+   ======================================== */
+
+.recommendations-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.recommendation-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+    padding: 24px;
+    transition: all 0.2s ease;
+}
+
+.recommendation-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.recommendation-warning {
+    border-left: 4px solid #EF4444;
+}
+
+.recommendation-success {
+    border-left: 4px solid #10B981;
+}
+
+.recommendation-info {
+    border-left: 4px solid #3B82F6;
+}
+
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.recommendation-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recommendation-warning .recommendation-icon {
+    background-color: #FEF2F2;
+    color: #EF4444;
+}
+
+.recommendation-success .recommendation-icon {
+    background-color: #ECFDF5;
+    color: #10B981;
+}
+
+.recommendation-info .recommendation-icon {
+    background-color: #EFF6FF;
+    color: #3B82F6;
+}
+
+.priority-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.priority-high {
+    background-color: #FEF2F2;
+    color: #DC2626;
+}
+
+.priority-medium {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+.priority-low {
+    background-color: #EFF6FF;
+    color: #2563EB;
+}
+
+.recommendation-content {
+    margin-bottom: 16px;
+}
+
+.recommendation-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 12px;
+}
+
+.recommendation-message {
+    font-size: 14px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.recommendation-footer {
+    padding-top: 16px;
+    border-top: 1px solid #F3F4F6;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+
+/* ========================================
+   EMPTY STATE CARD
+   ======================================== */
+
+.empty-state-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.empty-state-card svg {
+    color: #10B981;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.empty-state-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 12px;
+}
+
+.empty-state-card p {
+    font-size: 15px;
+    color: #6B7280;
+    margin: 0;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .page-actions {
+        justify-content: flex-start;
+    }
+    .btn-secondary-action {
+        width: 100%;
+        justify-content: center;
+    }
+    .recommendation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .recommendation-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .empty-state-card {
+        padding: 40px 20px;
+    }
+    .empty-state-card svg {
+        width: 48px;
+        height: 48px;
+    }
+    .empty-state-card h3 {
+        font-size: 18px;
+    }
+    .empty-state-card p {
+        font-size: 14px;
+    }
+}
+
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+body.dark-mode .btn-secondary-action {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: #F9FAFB;
+}
+
+body.dark-mode .btn-secondary-action:hover {
+    background-color: #4B5563;
+}
+
+body.dark-mode .recommendation-card,
+body.dark-mode .empty-state-card {
+    background-color: #1F2937;
+    border-color: #374151;
+}
+
+body.dark-mode .recommendation-title,
+body.dark-mode .empty-state-card h3 {
+    color: #F9FAFB;
+}
+
+body.dark-mode .recommendation-message,
+body.dark-mode .empty-state-card p {
+    color: #9CA3AF;
+}
+
+body.dark-mode .recommendation-footer {
+    border-color: #374151;
+}

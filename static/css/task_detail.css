@@ -1,0 +1,395 @@
+/* static/css/task_detail.css */
+
+
+/* Page Header */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    color: white;
+    padding: 30px 35px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-header>div h1 {
+    margin: 0 0 6px 0;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.page-header>div p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.85;
+    color: #cbd5e1;
+}
+
+
+/* Task Card */
+
+.task-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* Task Header */
+
+.task-header {
+    background: #f8fafc;
+    padding: 25px 30px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.task-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+
+/* Priority Badge */
+
+.priority {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority.high {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.priority.medium {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.priority.low {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+
+/* Task Body */
+
+.task-body {
+    padding: 30px;
+}
+
+.task-body p {
+    margin: 0 0 20px 0;
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+}
+
+.task-body p:last-child {
+    margin-bottom: 0;
+}
+
+.task-body strong {
+    color: #1e293b;
+    font-weight: 600;
+    min-width: 140px;
+    display: inline-block;
+}
+
+
+/* Task Actions */
+
+.task-actions {
+    padding: 25px 30px;
+    background: #f8fafc;
+    border-top: 2px solid #e2e8f0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+/* Buttons */
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #0ea5e9;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0284c7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+}
+
+.btn-secondary {
+    background-color: #64748b;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(100, 116, 139, 0.3);
+}
+
+.btn-danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-danger:active {
+    transform: scale(0.98);
+}
+
+
+/* Focus States for Accessibility */
+
+.btn-primary:focus,
+.btn-secondary:focus,
+.btn-danger:focus {
+    outline: 3px solid rgba(14, 165, 233, 0.5);
+    outline-offset: 2px;
+}
+
+
+/* Status Indicators (if needed) */
+
+.task-body p:has(strong:contains("Status")) {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 25px 20px;
+    }
+    .page-header>div h1 {
+        font-size: 26px;
+    }
+    .page-header>div p {
+        font-size: 14px;
+    }
+    .page-header .btn-secondary {
+        width: 100%;
+    }
+    .task-card {
+        margin: 0 15px;
+    }
+    .task-header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .task-header h2 {
+        font-size: 20px;
+    }
+    .task-body {
+        padding: 20px;
+    }
+    .task-body p {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .task-body strong {
+        min-width: auto;
+    }
+    .task-actions {
+        padding: 20px;
+        flex-direction: column;
+    }
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header>div h1 {
+        font-size: 22px;
+    }
+    .task-header h2 {
+        font-size: 18px;
+    }
+    .task-body {
+        padding: 15px;
+    }
+    .task-body p {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+}
+
+
+/* Animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.task-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+
+/* Empty State (if notes or description is empty) */
+
+.task-body p:has(strong:contains("Notes")) {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.task-body p:empty::after {
+    content: "No information provided";
+    color: #94a3b8;
+    font-style: italic;
+}
+
+
+/* Print Styles */
+
+@media print {
+    .page-header {
+        background: white;
+        color: black;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    .page-header .btn-secondary {
+        display: none;
+    }
+    .task-card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    .task-actions {
+        display: none;
+    }
+    .task-header,
+    .task-body {
+        background: white;
+    }
+}
+
+
+/* Loading State */
+
+.task-card.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+/* Additional Status Colors (inline in task body) */
+
+.status-completed {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.status-pending {
+    color: #ea580c;
+    font-weight: 600;
+}
+
+.status-in-progress {
+    color: #0ea5e9;
+    font-weight: 600;
+}
+
+
+/* Task Type Icons (optional enhancement) */
+
+.task-header h2::before {
+    content: "📋 ";
+    margin-right: 8px;
+}
+
+
+/* Hover Effect on Card */
+
+.task-card {
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Info Grid Layout for Better Readability */
+
+@media (min-width: 769px) {
+    .task-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .task-body p:has(strong:contains("Description")),
+    .task-body p:has(strong:contains("Notes")) {
+        grid-column: 1 / -1;
+    }
+}

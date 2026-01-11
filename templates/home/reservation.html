@@ -1,0 +1,43 @@
+{% extends "home/base.html" %}
+{% block title %}Make a Reservation - Luxury Haven Hotel{% endblock %}
+
+{% block content %}
+<main>
+    <!-- Hero Section -->
+    <section class="reservation-hero">
+        <div class="container">
+            <span class="section-label">Reservations</span>
+            <h1 class="page-title">Book Your Stay</h1>
+            <p>Secure your perfect getaway at Luxury Haven. Experience luxury, comfort, and exceptional service.</p>
+        </div>
+    </section>
+
+    <!-- Guest Form -->
+    <section class="reservation-section">
+        <section class="reservation-section">
+            <div class="container">
+                <div class="reservation-form-wrapper">
+                    <h2>Complete Reservation</h2>
+        
+                    <form method="POST" action="{% url 'reservation' %}" class="reservation-form">
+                        {% csrf_token %}
+                        <!-- Guest Form Fields -->
+                            <legend>Guest Details</legend>
+                            {{ gform.as_p }}
+                        </fieldset>
+                        <!-- Reservation Form Fields -->
+                            <legend>Reservation Details</legend>
+                            {{ rform.as_p }}
+                        </fieldset>
+        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">Complete Reservation</button>
+                            <button type="reset" class="btn btn-secondary btn-large">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
+{% endblock %}

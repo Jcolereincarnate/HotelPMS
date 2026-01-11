@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Create New Room{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/room_form.css' %}">
+
+<div class="page-subtitle-with-actions">
+    <div class="header-info">
+        <h1>Create New Room</h1>
+        <p>Add a new room to your hotel inventory</p>
+    </div>
+    <a href="{% url 'room_list' %}" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Back to Rooms
+    </a>
+</div>
+
+<div class="form-card">
+    <form method="POST" class="room-form">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+        <div class="form-errors-global">
+            {% for error in form.non_field_errors %}
+            <p class="error-message">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+                {% if field.field.required %}<span class="required">*</span>{% endif %}
+            </label>
+            {{ field }}
+            {% if field.help_text %}
+            <small class="form-help">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+            <div class="field-errors">
+                {% for error in field.errors %}
+                <p class="error-text">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Room</button>
+            <a href="{% url 'room_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

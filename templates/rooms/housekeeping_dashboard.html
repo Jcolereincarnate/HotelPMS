@@ -1,0 +1,134 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Housekeeping Tasks{% endblock %}
+{% block page_title %}Housekeeping{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/housekeeping.css' %}">
+
+<div class="page-subtitle-with-actions">
+    <div>
+        <h1>Housekeeping Tasks</h1>
+        <p>Manage room cleaning and maintenance tasks</p>
+    </div>
+    <a href="{% url 'create_task' %}" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Create Task
+    </a>
+</div>
+
+<div class="filter-card">
+    <form method="get" class="filter-form">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label for="priority" class="filter-label">Priority</label>
+                <select name="priority" id="priority" class="filter-select">
+                    <option value="">All Priorities</option>
+                    {% for value, label in priority_choices %}
+                    <option value="{{ value }}" {% if priority_filter == value %}selected{% endif %}>{{ label|upper }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="status" class="filter-label">Status</label>
+                <select name="status" id="status" class="filter-select">
+                    <option value="">All Status</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            {% if priority_filter or status_filter %}
+            <a href="{% url 'housekeeping_tasks' %}" class="btn btn-secondary">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<div class="table-card">
+    <div class="table-responsive">
+        <table class="housekeeping-table">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Task Type</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Assigned To</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td class="room-cell">
+                        <span class="room-badge">{{ task.room.room_number }}</span>
+                    </td>
+                    <td class="task-type">{{ task.task_type }}</td>
+                    <td>
+                        {% if task.priority == 'high' %}
+                        <span class="priority-badge priority-high">{{ task.get_priority_display|upper }}</span>
+                        {% elif task.priority == 'medium' %}
+                        <span class="priority-badge priority-medium">{{ task.get_priority_display|upper }}</span>
+                        {% else %}
+                        <span class="priority-badge priority-low">{{ task.get_priority_display|upper }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if task.status == 'pending' %}
+                        <span class="status-badge status-pending">{{ task.get_status_display }}</span>
+                        {% elif task.status == 'in_progress' %}
+                        <span class="status-badge status-progress">{{ task.get_status_display }}</span>
+                        {% elif task.status == 'completed' %}
+                        <span class="status-badge status-completed">{{ task.get_status_display }}</span>
+                        {% else %}
+                        <span class="status-badge status-cancelled">{{ task.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="assigned-cell">
+                        {% if task.assigned_to %}
+                        <div class="assigned-user">
+                            <div class="user-avatar-mini">{{ task.assigned_to.first_name.0 }}{{ task.assigned_to.last_name.0 }}</div>
+                            <span>{{ task.assigned_to.get_full_name }}</span>
+                        </div>
+                        {% else %}
+                        <span class="unassigned">Unassigned</span>
+                        {% endif %}
+                    </td>
+                    <td class="due-date">{{ task.due_date|date:"M d, H:i" }}</td>
+                    <td class="actions-cell">
+                        <a href="{% url 'task_detail' task.pk %}" class="action-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            View
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 3v18h18"/>
+                                <path d="M18.7 8c-1.5-3.4-4.5-6-8.2-6-1 0-2 .2-2.8.5"/>
+                            </svg>
+                            <p>No tasks found</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

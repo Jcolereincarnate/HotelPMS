@@ -1,0 +1,394 @@
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>{% block title %}Dashboard{% endblock %} - {{ hotel.name|default:"Hotel PMS" }}</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <div class="app-container">
+        <!-- Main Icon Sidebar (Left - Collapsed) -->
+        <aside class="icon-sidebar">
+            <div class="icon-sidebar-header">
+                
+            </div>
+            
+            <nav class="icon-nav">
+                <div class="icon-nav-section">
+                    <span class="icon-section-label">O</span>
+                </div>
+                
+                <a href="{% url 'dashboard' %}" 
+                   class="icon-nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" 
+                   title="Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </a>
+                
+{% if user.role in "admin,manager,receptionist" %}
+                <a href="{% url 'reservation_list' %}" class="icon-nav-item" title="Reservations">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Calendar outline -->
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <!-- Calendar header -->
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <!-- Optional checkmark inside for “reserved” -->
+                        <polyline points="8 14 11 17 16 10"/>
+                    </svg>
+                </a>
+                
+                <a href="{% url 'guest_list' %}" class="icon-nav-item" title="Guests">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </a>
+{% endif %}
+
+{% if user.role in "admin,manager,housekeeping" %}
+                <a href="{% url 'room_list' %}" class="icon-nav-item" title="Rooms">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Bed base -->
+                        <rect x="3" y="10" width="18" height="6" rx="1"/>
+                        <!-- Pillow -->
+                        <rect x="4" y="7" width="6" height="3" rx="1"/>
+                        <!-- Legs -->
+                        <line x1="3" y1="16" x2="3" y2="18"/>
+                        <line x1="21" y1="16" x2="21" y2="18"/>
+                      </svg>
+                </a>
+{% endif %}
+
+<div class="icon-nav-section">
+    <span class="icon-section-label">F</span>
+</div>
+{% if user.role in "admin,manager,accounting" %}
+                <a href="{% url 'billing_dashboard' %}" class="icon-nav-item" title="Billing">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                </a>
+                
+                <a href="{% url 'analytics_dashboard' %}" class="icon-nav-item" title="Analytics">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Bar chart -->
+                        <line x1="4" y1="20" x2="4" y2="10"/>
+                        <line x1="10" y1="20" x2="10" y2="4"/>
+                        <line x1="16" y1="20" x2="16" y2="14"/>
+                        <line x1="22" y1="20" x2="22" y2="8"/>
+                      </svg>
+                </a>
+{% endif %}
+            </nav>
+
+            <div class="icon-sidebar-footer">
+{% if user.role in "admin,manager" %}
+                <a href="{% url 'user_management' %}" class="icon-nav-item" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Head -->
+                        <circle cx="12" cy="8" r="4"/>
+                        <!-- Body -->
+                        <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+                      </svg>
+                </a>
+{% endif %}
+                
+                <div class="icon-user-profile">
+                    <div class="icon-user-avatar">{{ user.first_name.0|default:"U" }}</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Expandable Secondary Sidebar -->
+        <aside class="secondary-sidebar">
+            <div class="secondary-sidebar-header">
+                <div class="sidebar-brand">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="#10B981"/>
+                    </svg>
+                    <span class="brand-name">{{ hotel.name|slice:":4"|default:"Hotel" }}</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">OPERATIONS</div>
+                <nav class="sidebar-menu">
+                    <a href="{% url 'dashboard' %}" 
+                       class="sidebar-menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    
+{% if user.role in "admin,manager,receptionist" %}
+                    <a href="{% url 'reservation_list' %}" class="sidebar-menu-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Calendar outline -->
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <!-- Calendar header -->
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                            <!-- Optional checkmark inside for “reserved” -->
+                            <polyline points="8 14 11 17 16 10"/>
+                        </svg>
+                        <span>Reservations</span>
+                    </a>
+                    
+                    <a href="{% url 'guest_list' %}" class="sidebar-menu-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>Guests</span>
+                    </a>
+{% endif %}
+
+{% if user.role in "admin,manager,housekeeping" %}
+                    <a href="{% url 'room_list' %}" class="sidebar-menu-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Bed base -->
+                            <rect x="3" y="10" width="18" height="6" rx="1"/>
+                            <!-- Pillow -->
+                            <rect x="4" y="7" width="6" height="3" rx="1"/>
+                            <!-- Legs -->
+                            <line x1="3" y1="16" x2="3" y2="18"/>
+                            <line x1="21" y1="16" x2="21" y2="18"/>
+                          </svg>
+                        <span>Rooms</span>
+                    </a>
+                    
+                    <a href="{% url 'housekeeping_tasks' %}" class="sidebar-menu-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                        <span>Housekeeping</span>
+                        <svg class="chevron-down" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </a>
+{% endif %}
+                    
+                </nav>
+            </div>
+
+{% if user.role in "admin,manager,accounting" %}
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">FINANCE</div>
+                <nav class="sidebar-menu">
+                    <a href="{% url 'billing_dashboard' %}" class="sidebar-menu-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10"/>
+                        </svg>
+                        <span>Billing</span>
+                    </a>
+                    
+                    <a href="{% url 'analytics_dashboard' %}" class="sidebar-menu-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Bar chart -->
+                            <line x1="4" y1="20" x2="4" y2="10"/>
+                            <line x1="10" y1="20" x2="10" y2="4"/>
+                            <line x1="16" y1="20" x2="16" y2="14"/>
+                            <line x1="22" y1="20" x2="22" y2="8"/>
+                          </svg>
+                        <span>Analytics</span>
+                    </a>
+                    
+                    <a href="{% url 'folio_list' %}" class="sidebar-menu-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Document outline -->
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <!-- Folded corner -->
+                            <polyline points="14 2 14 8 20 8"/>
+                            <!-- Lines representing folio content -->
+                            <line x1="8" y1="13" x2="16" y2="13"/>
+                            <line x1="8" y1="17" x2="16" y2="17"/>
+                            <line x1="8" y1="9" x2="10" y2="9"/>
+                          </svg>
+                        <span>Folios</span>
+                    </a>
+                </nav>
+            </div>
+{% endif %}
+
+{% if user.role in "admin,manager" %}
+            <div class="sidebar-section">
+                <nav class="sidebar-menu">
+                    <a href="{% url 'user_management' %}" class="sidebar-menu-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6M4.2 4.2l4.2 4.2m5.6 5.6l4.2 4.2M1 12h6m6 0h6M4.2 19.8l4.2-4.2m5.6-5.6l4.2-4.2"/>
+                        </svg>
+                        <span>User Management</span>
+                    </a>
+                    
+                    <div class="sidebar-menu-item" id="darkModeToggleItem">
+                         <!-- Head -->
+                         <circle cx="12" cy="8" r="4"/>
+                         <!-- Body -->
+                         <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+                        <span>Dark mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </nav>
+            </div>
+{% endif %}
+
+            <div class="sidebar-user-section">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar">{{ user.first_name.0|default:"H" }}{{ user.last_name.0|default:"N" }}</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">{{ user.get_full_name|default:"User" }}</div>
+                        <div class="sidebar-user-role">{{ user.get_role_display }}</div>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="sidebar-logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Log out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">{% block page_title %}Dashboard{% endblock %}</h1>
+                <div class="dashboard-actions">
+                    <!--<button class="time-period-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>Time period</span>
+                    </button>
+                    <button class="add-data-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        <span>Add data</span>
+                    </button>-->
+                </div>
+            </div>
+
+{% if messages %}
+            <div class="messages-container">
+{% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">
+                    <span class="alert-icon">
+{% if message.tags == 'success' %}✓
+{% elif message.tags == 'error' or message.tags == 'danger' %}✕
+{% elif message.tags == 'warning' %}⚠
+{% else %}ℹ{% endif %}
+                    </span>
+                    <span class="alert-message">{{ message }}</span>
+                </div>
+{% endfor %}
+            </div>
+{% endif %}
+
+            <div class="dashboard-content">
+{% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+{% else %}
+    <!-- Guest/Login View -->
+    <div class="guest-container">
+        <div class="guest-content-wrapper">
+            <div class="guest-brand">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" fill="#10B981"/>
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h1>{{ hotel.name|default:"Hotel PMS" }}</h1>
+                <p>Property Management System</p>
+            </div>
+
+{% if messages %}
+            <div class="messages-container">
+{% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">
+                    <span class="alert-icon">
+{% if message.tags == 'success' %}✓
+{% elif message.tags == 'error' or message.tags == 'danger' %}✕
+{% elif message.tags == 'warning' %}⚠
+{% else %}ℹ{% endif %}
+                    </span>
+                    <span class="alert-message">{{ message }}</span>
+                </div>
+{% endfor %}
+            </div>
+{% endif %}
+
+{% block guest_content %}{% endblock %}
+        </div>
+    </div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    
+        // Active link highlighting
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.sidebar-menu-item, .icon-nav-item');
+    
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+    
+        if (darkModeToggle) {
+    
+            // Load saved preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                darkModeToggle.checked = true;
+                document.body.classList.add('dark-mode');
+            }
+    
+            darkModeToggle.addEventListener('change', function () {
+                document.body.classList.toggle('dark-mode', this.checked);
+                localStorage.setItem('darkMode', this.checked);
+            });
+        }
+    
+    });
+    </script>
+    <script src="{% static 'js/mobile-menu.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!-- templates/analytics/guest_insights.html -->
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Guest Insights{% endblock %}
+
+{% block page_title %}Guest Insights{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/guest_insights.css' %}">
+
+<!-- Metric Cards Grid -->
+<div class="metrics-grid">
+    <!-- Total Guests Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <span class="metric-label">Total Guests</span>
+        </div>
+        <div class="metric-value">{{ total_guests|default:"0" }}</div>
+        <div class="metric-subtitle">All time guests</div>
+    </div>
+
+    <!-- New Guests Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="8.5" cy="7" r="4"/>
+                    <line x1="20" y1="8" x2="20" y2="14"/>
+                    <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+            </div>
+            <span class="metric-label">New Guests (30 Days)</span>
+        </div>
+        <div class="metric-value">{{ new_guests|default:"0" }}</div>
+        <div class="metric-change positive">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+            </svg>
+            <span>New this month</span>
+        </div>
+    </div>
+
+    <!-- Repeat Guests Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <span class="metric-label">Repeat Guests</span>
+        </div>
+        <div class="metric-value">{{ repeat_guests|default:"0" }}</div>
+        <div class="metric-subtitle">Loyal customers</div>
+    </div>
+
+    <!-- VIP Guests Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-orange">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+            </div>
+            <span class="metric-label">VIP Guests</span>
+        </div>
+        <div class="metric-value">{{ vip_guests|default:"0" }}</div>
+        <div class="metric-subtitle">Premium members</div>
+    </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="insights-grid">
+    <!-- Top Spenders Section -->
+    <div class="insights-card insights-card-large">
+        <div class="insights-header">
+            <h3 class="insights-title">Top Spenders</h3>
+            <span class="insights-badge">Top 10</span>
+        </div>
+        
+        <div class="table-wrapper">
+            <table class="insights-table">
+                <thead>
+                    <tr>
+                        <th>Guest</th>
+                        <th>Total Spent</th>
+                        <th>Total Stays</th>
+                    </tr>
+                </thead>
+                <tbody>
+{% for g in top_spenders %}
+                    <tr>
+                        <td>
+                            <div class="guest-info">
+                                <div class="guest-avatar-small">{{ g.first_name.0 }}{{ g.last_name.0 }}</div>
+                                <span class="guest-name">{{ g.first_name }} {{ g.last_name }}</span>
+                            </div>
+                        </td>
+                        <td class="amount-cell">₦{{ g.total_spent|floatformat:2|intcomma }}</td>
+                        <td class="count-cell">{{ g.total_stays }} stays</td>
+                    </tr>
+{% empty %}
+                    <tr>
+                        <td colspan="3">
+                            <div class="empty-state">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                <p>No spending data available</p>
+                            </div>
+                        </td>
+                    </tr>
+{% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="topSpendersChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Gender Distribution Section -->
+    <div class="insights-card">
+        <div class="insights-header">
+            <h3 class="insights-title">Gender Distribution</h3>
+        </div>
+
+        <div class="chart-container-doughnut">
+            <canvas id="genderChart"></canvas>
+        </div>
+
+        <div class="distribution-list">
+{% for item in gender_dist %}
+            <div class="distribution-item">
+                <div class="distribution-info">
+                    <span class="distribution-dot distribution-dot-{{ forloop.counter }}"></span>
+                    <span class="distribution-label">
+{% if item.gender == "M" %}Male
+{% elif item.gender == "F" %}Female
+{% else %}{{ item.gender|title }}
+{% endif %}
+                    </span>
+                </div>
+                <span class="distribution-value">{{ item.count }}</span>
+            </div>
+{% empty %}
+            <div class="empty-state-small">
+                <p>No gender data available</p>
+            </div>
+{% endfor %}
+        </div>
+    </div>
+
+    <!-- Top Nationalities Section -->
+    <div class="insights-card">
+        <div class="insights-header">
+            <h3 class="insights-title">Top Nationalities</h3>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="insights-table-compact">
+                <thead>
+                    <tr>
+                        <th>Nationality</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+{% for item in top_nationalities %}
+                    <tr>
+                        <td class="nationality-cell">
+                            <span class="nationality-flag">🌍</span>
+                            {{ item.nationality }}
+                        </td>
+                        <td class="count-cell-right">{{ item.count }}</td>
+                    </tr>
+{% empty %}
+                    <tr>
+                        <td colspan="2">
+                            <div class="empty-state-small">
+                                <p>No nationality data available</p>
+                            </div>
+                        </td>
+                    </tr>
+{% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="nationalityChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+// Color Palettes
+const colorPalette = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+const borderColors = ['#2563EB', '#059669', '#D97706', '#DC2626', '#7C3AED', '#DB2777'];
+
+// Gender Distribution Chart
+const genderLabels = [
+{% for item in gender_dist %}
+    "{% if item.gender == 'M' %}Male{% elif item.gender == 'F' %}Female{% else %}{{ item.gender|title }}{% endif %}",
+{% endfor %}
+];
+
+const genderValues = [
+{% for item in gender_dist %}
+    {{ item.count }},
+{% endfor %}
+];
+
+new Chart(document.getElementById('genderChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+        labels: genderLabels,
+        datasets: [{
+            data: genderValues,
+            backgroundColor: colorPalette.slice(0, genderLabels.length),
+            borderWidth: 0,
+            spacing: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: '#1F2937',
+                padding: 12,
+                titleColor: '#F9FAFB',
+                bodyColor: '#F9FAFB',
+                borderColor: '#374151',
+                borderWidth: 1,
+                callbacks: {
+                    label: function(context) {
+                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        let percentage = ((context.parsed / total) * 100).toFixed(1);
+                        return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                    }
+                }
+            }
+        },
+        cutout: '65%'
+    }
+});
+
+// Top Nationalities Chart
+const nationalityLabels = [
+{% for item in top_nationalities %}
+    "{{ item.nationality }}",
+{% endfor %}
+];
+
+const nationalityValues = [
+{% for item in top_nationalities %}
+    {{ item.count }},
+{% endfor %}
+];
+
+new Chart(document.getElementById('nationalityChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: nationalityLabels,
+        datasets: [{
+            label: 'Guest Count',
+            data: nationalityValues,
+            backgroundColor: '#3B82F6',
+            borderRadius: 6,
+            barPercentage: 0.7
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: '#1F2937',
+                padding: 12,
+                titleColor: '#F9FAFB',
+                bodyColor: '#F9FAFB',
+                borderColor: '#374151',
+                borderWidth: 1
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: '#F3F4F6',
+                    drawBorder: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 }
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 }
+                }
+            }
+        }
+    }
+});
+
+// Top Spenders Horizontal Bar Chart
+const topSpendersLabels = [
+{% for g in top_spenders %}
+    "{{ g.first_name }} {{ g.last_name }}",
+{% endfor %}
+];
+
+const topSpendersValues = [
+{% for g in top_spenders %}
+    {{ g.total_spent }},
+{% endfor %}
+];
+
+new Chart(document.getElementById('topSpendersChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: topSpendersLabels,
+        datasets: [{
+            label: 'Total Spent (₦)',
+            data: topSpendersValues,
+            backgroundColor: '#10B981',
+            borderRadius: 6,
+            barPercentage: 0.7
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: '#1F2937',
+                padding: 12,
+                titleColor: '#F9FAFB',
+                bodyColor: '#F9FAFB',
+                borderColor: '#374151',
+                borderWidth: 1,
+                callbacks: {
+                    label: function(context) {
+                        return 'Total: ₦' + context.parsed.x.toLocaleString();
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                grid: {
+                    color: '#F3F4F6',
+                    drawBorder: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 },
+                    callback: function(value) {
+                        return '₦' + (value / 1000) + 'K';
+                    }
+                }
+            },
+            y: {
+                grid: {
+                    display: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

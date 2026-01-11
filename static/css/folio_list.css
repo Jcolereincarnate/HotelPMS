@@ -1,0 +1,203 @@
+/* Folio List Page Styles */
+
+.filter-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #2c3e50;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.search-input::placeholder {
+    color: #95a5a6;
+}
+
+.status-select {
+    min-width: 150px;
+    padding: 10px 14px;
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #2c3e50;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #10B981;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0ea371;
+}
+
+.btn-secondary {
+    background-color: #e0e6ed;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d9e0;
+}
+
+.table-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.folios-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.folios-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.folios-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.folios-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+    transition: background-color 0.15s ease;
+}
+
+.folios-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.folios-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.folios-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.folios-table .guest-cell {
+    font-weight: 600;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background-color: #d4edda;
+    color: #27ae60;
+}
+
+.badge-warning {
+    background-color: #fff3cd;
+    color: #f39c12;
+}
+
+.badge-danger {
+    background-color: #f8d7da;
+    color: #e74c3c;
+}
+
+.btn-view {
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn-view:hover {
+    background-color: #2980b9;
+}
+
+.empty-row {
+    text-align: center;
+    color: #95a5a6;
+    padding: 40px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-input,
+    .status-select {
+        width: 100%;
+    }
+    .table-card {
+        overflow-x: auto;
+    }
+    .folios-table {
+        min-width: 800px;
+    }
+}

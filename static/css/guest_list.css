@@ -1,0 +1,534 @@
+/* static/css/guest_list.css */
+
+
+/* ========================================
+   PAGE ACTIONS RIGHT
+   ======================================== */
+
+.page-actions-right {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.btn-add-guest {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-add-guest:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+
+/* ========================================
+   FILTER CARD
+   ======================================== */
+
+.filter-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.filter-input,
+.filter-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1F2937;
+    background-color: #FFFFFF;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.filter-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-filter-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #3B82F6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-filter-submit:hover {
+    background: #2563EB;
+}
+
+.btn-filter-clear {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #F9FAFB;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-filter-clear:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+
+/* ========================================
+   TABLE CARD
+   ======================================== */
+
+.table-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.guests-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.guests-table thead {
+    background: #F9FAFB;
+}
+
+.guests-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.guests-table tbody tr {
+    border-bottom: 1px solid #F3F4F6;
+    transition: background-color 0.2s ease;
+}
+
+.guests-table tbody tr:hover {
+    background-color: #F9FAFB;
+}
+
+.guests-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.guests-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #374151;
+}
+
+
+/* ========================================
+   TABLE CELLS
+   ======================================== */
+
+.name-cell {
+    font-weight: 500;
+}
+
+.guest-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.guest-avatar-mini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.guest-name {
+    color: #1F2937;
+    font-weight: 600;
+}
+
+.email-cell {
+    color: #6B7280;
+}
+
+.phone-cell {
+    color: #6B7280;
+}
+
+.stays-cell {
+    color: #6B7280;
+    font-size: 13px;
+}
+
+.amount-cell {
+    font-weight: 600;
+    color: #10B981;
+}
+
+.guest-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.guest-status-vip {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    color: #D97706;
+}
+
+.guest-status-regular {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    color: #2563EB;
+}
+
+.actions-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.action-view {
+    background: #EFF6FF;
+    color: #3B82F6;
+}
+
+.action-view:hover {
+    background: #DBEAFE;
+}
+
+.action-edit {
+    background: #F3F4F6;
+    color: #6B7280;
+}
+
+.action-edit:hover {
+    background: #E5E7EB;
+}
+
+
+/* ========================================
+   BACK LINK (For History Page)
+   ======================================== */
+
+.back-link-wrapper {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #F3F4F6;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #F9FAFB;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+.id-cell {
+    font-weight: 600;
+    color: #6B7280;
+    font-family: monospace;
+}
+
+
+/* ========================================
+   FIELD HELP TEXT
+   ======================================== */
+
+.field-help {
+    font-size: 12px;
+    color: #6B7280;
+    margin-top: 4px;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-card {
+        padding: 20px;
+    }
+    .table-card {
+        padding: 20px;
+    }
+    .guests-table th,
+    .guests-table td {
+        padding: 12px 8px;
+    }
+    .filter-actions {
+        flex-direction: column;
+    }
+    .btn-filter-submit,
+    .btn-filter-clear {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-actions-right {
+        justify-content: stretch;
+    }
+    .btn-add-guest {
+        width: 100%;
+        justify-content: center;
+    }
+    /* Stack table on mobile */
+    .guests-table thead {
+        display: none;
+    }
+    .guests-table,
+    .guests-table tbody,
+    .guests-table tr,
+    .guests-table td {
+        display: block;
+        width: 100%;
+    }
+    .guests-table tr {
+        margin-bottom: 16px;
+        padding: 16px;
+        background: #F9FAFB;
+        border-radius: 8px;
+        border: 1px solid #E5E7EB;
+    }
+    .guests-table td {
+        padding: 8px 0;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .guests-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #6B7280;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+    .guest-name-wrapper {
+        flex-direction: row;
+    }
+    .actions-cell {
+        justify-content: flex-end;
+    }
+}
+
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+body.dark-mode .filter-card,
+body.dark-mode .table-card {
+    background-color: #1F2937;
+    border-color: #374151;
+}
+
+body.dark-mode .filter-label {
+    color: #D1D5DB;
+}
+
+body.dark-mode .filter-input,
+body.dark-mode .filter-select {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: #F9FAFB;
+}
+
+body.dark-mode .filter-input:focus,
+body.dark-mode .filter-select:focus {
+    background-color: #374151;
+}
+
+body.dark-mode .btn-filter-clear,
+body.dark-mode .btn-back {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: #F9FAFB;
+}
+
+body.dark-mode .btn-filter-clear:hover,
+body.dark-mode .btn-back:hover {
+    background-color: #4B5563;
+}
+
+body.dark-mode .guests-table thead {
+    background-color: #374151;
+}
+
+body.dark-mode .guests-table th {
+    color: #9CA3AF;
+    border-color: #4B5563;
+}
+
+body.dark-mode .guests-table tbody tr {
+    border-color: #374151;
+}
+
+body.dark-mode .guests-table tbody tr:hover {
+    background-color: #374151;
+}
+
+body.dark-mode .guests-table td {
+    color: #D1D5DB;
+}
+
+body.dark-mode .guest-name {
+    color: #F9FAFB;
+}
+
+body.dark-mode .email-cell,
+body.dark-mode .phone-cell,
+body.dark-mode .stays-cell,
+body.dark-mode .id-cell {
+    color: #9CA3AF;
+}
+
+body.dark-mode .action-view {
+    background-color: #1E3A8A;
+    color: #60A5FA;
+}
+
+body.dark-mode .action-view:hover {
+    background-color: #1E40AF;
+}
+
+body.dark-mode .action-edit {
+    background-color: #374151;
+    color: #9CA3AF;
+}
+
+body.dark-mode .action-edit:hover {
+    background-color: #4B5563;
+}
+
+body.dark-mode .back-link-wrapper {
+    border-color: #374151;
+}
+
+@media (max-width: 640px) {
+    body.dark-mode .guests-table tr {
+        background-color: #374151;
+        border-color: #4B5563;
+    }
+    body.dark-mode .guests-table td::before {
+        color: #9CA3AF;
+    }
+}

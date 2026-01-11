@@ -1,0 +1,163 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Revenue Analytics{% endblock %}
+
+{% block page_title %}Revenue Analytics{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/revenue.css' %}">
+<link rel="stylesheet" href="{% static 'css/occupancy.css' %}">
+
+<div class="page-subtitle">
+    <p>Analysis of revenue trends and financial performance</p>
+</div>
+
+<!-- Metrics Grid -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+            </div>
+            <span class="metric-label">Current Period Occupancy</span>
+        </div>
+        <div class="metric-value">{{ current_period.avg_occupancy|floatformat:2|default:"0.00" }}%</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-gray">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+            </div>
+            <span class="metric-label">Previous Period Occupancy</span>
+        </div>
+        <div class="metric-value">{{ previous_period.avg_occupancy|floatformat:2|default:"0.00" }}%</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper {% if occupancy_trend >= 0 %}metric-icon-green{% else %}metric-icon-red{% endif %}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                </svg>
+            </div>
+            <span class="metric-label">Occupancy Trend</span>
+        </div>
+        <div class="metric-value {% if occupancy_trend >= 0 %}trend-positive{% else %}trend-negative{% endif %}">
+{% if occupancy_trend >= 0 %}+{% endif %}{{ occupancy_trend|default:"0" }}%
+        </div>
+    </div>
+</div>
+
+<!-- Revenue Chart -->
+<div class="chart-card-full">
+    <div class="chart-header">
+        <h3 class="chart-title">Revenue Over Time</h3>
+    </div>
+    <div class="chart-body-large">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+
+<!-- Daily Data Table -->
+<div class="data-table-card">
+    <div class="table-header">
+        <h3 class="table-title">Daily Revenue Breakdown</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Occupancy Rate</th>
+                    <th>Guest Count</th>
+                    <th>Total Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+{% for item in daily_data %}
+                <tr>
+                    <td class="date-cell">{{ item.date }}</td>
+                    <td class="percentage-cell">{{ item.occupancy_rate }}%</td>
+                    <td class="count-cell">{{ item.guest_count }} guests</td>
+                    <td class="revenue-cell">₦{{ item.total_revenue|floatformat:2|intcomma }}</td>
+                </tr>
+{% empty %}
+                <tr><td colspan="4" class="empty-row">No revenue data available</td></tr>
+{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const revenueLabels = [
+{% for item in daily_data %}
+    "{{ item.date }}",
+{% endfor %}
+];
+
+const revenueValues = [
+{% for item in daily_data %}
+    {{ item.total_revenue|default:"0" }},
+{% endfor %}
+];
+
+new Chart(document.getElementById('revenueChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: revenueLabels,
+        datasets: [{
+            label: 'Daily Revenue (₦)',
+            data: revenueValues,
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#10B981',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: '#1F2937',
+                padding: 12,
+                callbacks: {
+                    label: function(context) {
+                        return 'Revenue: ₦' + context.parsed.y.toLocaleString();
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: '#F3F4F6' },
+                ticks: {
+                    callback: function(value) {
+                        return '₦' + (value / 1000) + 'K';
+                    }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { maxRotation: 45, minRotation: 45 }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

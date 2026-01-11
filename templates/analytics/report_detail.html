@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}AI Report Detail{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/report_detail.css' %}">
+<div class="page-header">
+    <h1>{{ title }}</h1>
+    <p>Report generated on {{ report.created_at|date:"Y-m-d H:i" }}</p>
+</div>
+
+<div class="report-content" style="margin-top: 20px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <h2>{{ report.title }}</h2>
+    <h3 style="margin-top: 20px; color: #2c3e50;">Summary</h3>
+    <p>{{ report.summary|linebreaks }}</p>
+
+    <h3 style="margin-top: 20px; color: #2c3e50;">Insights</h3>
+    {% if report.insights %}
+        <ul>
+            {% for key, value in report.insights.items %}
+                <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No insights available.</p>
+    {% endif %}
+
+    <h3 style="margin-top: 20px; color: #2c3e50;">Recommendations</h3>
+    {% if report.recommendations %}
+        <ul>
+            {% for rec in report.recommendations %}
+                <li>
+                    <strong>{{ rec.title }}:</strong> {{ rec.message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recommendations available.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'ai_report_history' %}" class="btn btn-secondary">Back to Reports</a>
+</div>
+
+{% endblock %}

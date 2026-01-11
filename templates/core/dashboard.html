@@ -1,0 +1,336 @@
+<!-- templates/core/dashboard.html -->
+{% extends "core/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% load humanize %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Metric Cards Grid -->
+<div class="metrics-grid">
+    <!-- Total Rooms Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="10" rx="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            </div>
+            <span class="metric-label">Total rooms</span>
+        </div>
+        <div class="metric-value">{{ rooms_count|default:"0" }}</div>
+    </div>
+
+    <!-- Occupied Rooms Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <span class="metric-label">Occupied</span>
+        </div>
+        <div class="metric-value">{{ occupied_count|default:"0" }}</div>
+    </div>
+
+    <!-- Total Guests Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-orange">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <span class="metric-label">Total guests</span>
+        </div>
+        <div class="metric-value">{{ guests_count|default:"0" }}</div>
+    </div>
+
+    <!-- Today's Revenue Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+            </div>
+            <span class="metric-label">Today's revenue</span>
+        </div>
+        <div class="metric-value">₦{{ today_payments|intcomma|default:"0" }}</div>
+        
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts-grid">
+    <!-- Revenue Chart -->
+    <div class="chart-card chart-card-large">
+        <div class="chart-header">
+            <h3 class="chart-title">Revenue overview</h3>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-dot legend-dot-blue"></span>
+                    <span class="legend-label">Room revenue</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot legend-dot-orange"></span>
+                    <span class="legend-label">Service revenue</span>
+                </div>
+            </div>
+        </div>
+        <div class="chart-body">
+            <canvas id="revenueChart"></canvas>
+        </div>
+        <div class="chart-highlight">
+            <div class="highlight-label">Room revenue</div>
+            <div class="highlight-value">₦{{ occupied_count|default:"0"|intcomma }}</div>
+
+        </div>
+    </div>
+
+    <!-- Occupancy by Room Type -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3 class="chart-title">Occupancy by room type</h3>
+        </div>
+        <div class="chart-body">
+            <canvas id="occupancyChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Guest Demographics -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3 class="chart-title">Reservations by status</h3>
+        </div>
+        <div class="demographics-list">
+            <div class="demographic-item">
+                <div class="demographic-info">
+                    <span class="demographic-color" style="background-color: #3B82F6;"></span>
+                    <span class="demographic-label">Confirmed</span>
+                </div>
+                <span class="demographic-value">45%</span>
+            </div>
+            <div class="demographic-item">
+                <div class="demographic-info">
+                    <span class="demographic-color" style="background-color: #10B981;"></span>
+                    <span class="demographic-label">Checked In</span>
+                </div>
+                <span class="demographic-value">30%</span>
+            </div>
+            <div class="demographic-item">
+                <div class="demographic-info">
+                    <span class="demographic-color" style="background-color: #F59E0B;"></span>
+                    <span class="demographic-label">Pending</span>
+                </div>
+                <span class="demographic-value">15%</span>
+            </div>
+            <div class="demographic-item">
+                <div class="demographic-info">
+                    <span class="demographic-color" style="background-color: #EF4444;"></span>
+                    <span class="demographic-label">Cancelled</span>
+                </div>
+                <span class="demographic-value">8%</span>
+            </div>
+            <div class="demographic-item">
+                <div class="demographic-info">
+                    <span class="demographic-color" style="background-color: #8B5CF6;"></span>
+                    <span class="demographic-label">Checked Out</span>
+                </div>
+                <span class="demographic-value">2%</span>
+            </div>
+        </div>
+        <div class="chart-map">
+            <svg viewBox="0 0 200 120" style="width: 100%; height: auto;">
+                <path d="M50,20 Q70,10 90,20 L100,30 L95,50 L85,60 L70,65 L55,60 L45,50 Z" fill="#10B981" opacity="0.7"/>
+                <path d="M110,25 Q125,18 140,25 L148,35 L145,52 L135,62 L120,65 L108,60 L102,48 Z" fill="#3B82F6" opacity="0.6"/>
+                <path d="M65,70 Q80,65 95,72 L102,82 L98,95 L88,102 L75,104 L63,98 L58,88 Z" fill="#8B5CF6" opacity="0.5"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-card">
+    <h3 class="quick-actions-title">Quick Access</h3>
+    <div class="quick-actions-grid">
+        <a href="{% url 'reservation_list' %}" class="quick-action-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>New Reservation</span>
+        </a>
+        <a href="{% url 'guest_list' %}" class="quick-action-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Manage Guests</span>
+        </a>
+        <a href="{% url 'room_list' %}" class="quick-action-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>View Rooms</span>
+        </a>
+        <a href="{% url 'billing_dashboard' %}" class="quick-action-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span>Billing</span>
+        </a>
+    </div>
+</div>
+{{ revenue_labels|json_script:"revenue-labels" }}
+{{ room_revenue|json_script:"room-revenue" }}
+{{ service_revenue|json_script:"service-revenue" }}
+
+{{ occupancy_labels|json_script:"occupancy-labels" }}
+{{ occupancy_data|json_script:"occupancy-data" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+const revenueLabels = JSON.parse(
+    document.getElementById('revenue-labels').textContent
+);
+const roomRevenueData = JSON.parse(
+    document.getElementById('room-revenue').textContent
+);
+const serviceRevenueData = JSON.parse(
+    document.getElementById('service-revenue').textContent
+);
+const occupancyLabels = JSON.parse(
+    document.getElementById('occupancy-labels').textContent
+);
+const occupancyData = JSON.parse(
+    document.getElementById('occupancy-data').textContent
+);
+
+
+
+const revenueCanvas = document.getElementById('revenueChart');
+if (revenueCanvas) {
+    const revenueCtx = revenueCanvas.getContext('2d');
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'bar',
+        data: {
+            labels: revenueLabels,
+            datasets: [
+                {
+                    label: 'Room revenue',
+                    data: roomRevenueData,
+                    backgroundColor: '#3B82F6',
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                },
+                {
+                    label: 'Service revenue',
+                    data: serviceRevenueData,
+                    backgroundColor: '#F97316',
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1F2937',
+                    padding: 12,
+                    titleColor: '#F9FAFB',
+                    bodyColor: '#F9FAFB',
+                    borderColor: '#374151',
+                    borderWidth: 1,
+                    callbacks: {
+                        label: function (context) {
+                            return context.dataset.label + ': ₦' +
+                                context.parsed.y.toLocaleString();
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    border: { display: false },
+                    ticks: { color: '#6B7280', font: { size: 12 } }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#F3F4F6', drawBorder: false },
+                    border: { display: false },
+                    ticks: {
+                        color: '#6B7280',
+                        callback: value => (value / 1000) + 'K'
+                    }
+                }
+            }
+        }
+    });
+}
+
+const occupancyCanvas = document.getElementById('occupancyChart');
+if (occupancyCanvas) {
+    const occupancyCtx = occupancyCanvas.getContext('2d');
+
+    const occupancyChart = new Chart(occupancyCtx, {
+        type: 'doughnut',
+        data: {
+            labels: occupancyLabels,
+            datasets: [{
+                data: occupancyData,
+                backgroundColor: [
+                    '#8B5CF6','#EC4899','#F59E0B','#10B981',
+                    '#3B82F6','#06B6D4','#6366F1','#14B8A6'
+                ],
+                borderWidth: 0,
+                spacing: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 15,
+                        font: { size: 12 },
+                        color: '#6B7280'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#1F2937',
+                    padding: 12,
+                    titleColor: '#F9FAFB',
+                    bodyColor: '#F9FAFB',
+                    borderColor: '#374151',
+                    borderWidth: 1
+                }
+            },
+            cutout: '65%'
+        }
+    });
+}
+
+</script>
+{% endblock %}
+

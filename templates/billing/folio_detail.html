@@ -1,0 +1,144 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Folio {{ folio.id }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/folio_detail.css' %}">
+
+<div class="page-subtitle-with-actions">
+    <div>
+        <h1>Folio #{{ folio.id|truncatechars:8 }}</h1>
+        <p>{{ folio.guest.first_name }} {{ folio.guest.last_name }}</p>
+    </div>
+    <div class="header-actions">
+        <a href="{% url 'add_charge' folio.pk %}" class="btn btn-secondary">Add Charge</a>
+        <a href="{% url 'record_payment' folio.pk %}" class="btn btn-primary">Record Payment</a>
+    </div>
+</div>
+
+<div class="folio-grid">
+    <div class="folio-main">
+        <div class="card">
+            <h2 class="section-title">Charges</h2>
+            
+            {% if line_items %}
+            <div class="table-wrapper">
+                <table class="folio-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Unit</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in line_items %}
+                        <tr>
+                            <td>{{ item.description }}</td>
+                            <td>₦{{ item.amount|floatformat:2|intcomma }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td class="total-cell">₦{{ item.total|floatformat:2|intcomma }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-state">No charges yet</p>
+            {% endif %}
+            
+            <div class="charges-summary">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="summary-label">Room Charges</span>
+                        <span class="summary-value">₦{{ folio.room_charges|floatformat:2|intcomma }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Service Charges</span>
+                        <span class="summary-value">₦{{ folio.service_charges|floatformat:2|intcomma }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Taxes</span>
+                        <span class="summary-value">₦{{ folio.taxes|floatformat:2|intcomma }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Discount</span>
+                        <span class="summary-value discount">-₦{{ folio.discount|floatformat:2|intcomma }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">Payment History</h2>
+            
+            {% if payments %}
+            <div class="table-wrapper">
+                <table class="folio-table">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td class="amount-cell">₦{{ payment.amount|floatformat:2|intcomma }}</td>
+                            <td>{{ payment.get_payment_method_display }}</td>
+                            <td>
+                                {% if payment.status == 'completed' %}
+                                <span class="badge badge-success">{{ payment.get_status_display }}</span>
+                                {% elif payment.status == 'pending' %}
+                                <span class="badge badge-warning">{{ payment.get_status_display }}</span>
+                                {% else %}
+                                <span class="badge badge-danger">{{ payment.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ payment.created_at|date:"M d, H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-state">No payments recorded</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="folio-sidebar">
+        <div class="card">
+            <h3 class="sidebar-title">Billing Summary</h3>
+            
+            <div class="billing-item">
+                <span class="billing-label">Total Amount</span>
+                <span class="billing-amount total">₦{{ folio.total_amount|floatformat:2|intcomma }}</span>
+            </div>
+            
+            <div class="billing-item">
+                <span class="billing-label">Amount Paid</span>
+                <span class="billing-amount paid">₦{{ folio.amount_paid|floatformat:2|intcomma }}</span>
+            </div>
+            
+            <div class="balance-card">
+                <span class="balance-label">Balance Due</span>
+                <span class="balance-amount {% if folio.balance > 0 %}outstanding{% else %}settled{% endif %}">
+                    ₦{{ folio.balance|floatformat:2|intcomma }}
+                </span>
+            </div>
+            
+            <div class="status-section">
+                <span class="status-label">Status</span>
+                <span class="badge {% if folio.status == 'open' %}badge-danger{% elif folio.status == 'partial' %}badge-warning{% else %}badge-success{% endif %}">
+                    {{ folio.get_status_display|upper }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

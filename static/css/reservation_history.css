@@ -1,0 +1,197 @@
+.page-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.page-header h1 {
+    color: black;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+}
+
+
+/* Table Styles */
+
+table {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+thead {
+    background: #f1f5f9;
+}
+
+th {
+    padding: 16px;
+    text-align: left;
+    color: black;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    padding: 16px;
+    color: #334155;
+    font-size: 14px;
+}
+
+
+/* First column (ID) styling */
+
+td:first-child {
+    font-weight: 600;
+    color: #1e40af;
+}
+
+
+/* Status column styling */
+
+td:nth-child(5) {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+
+/* Price column styling */
+
+td:last-child {
+    color: #065f46;
+    font-weight: 600;
+    text-align: right;
+}
+
+th:last-child {
+    text-align: right;
+}
+
+
+/* Empty State Message */
+
+.page-header+p {
+    padding: 40px 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 15px;
+    font-style: italic;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+
+/* Back Button Container */
+
+table+div,
+.page-header+p+div {
+    margin-top: 30px;
+}
+
+table+div a,
+.page-header+p+div a {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    background-color: #64748b;
+    color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(100, 116, 139, 0.2);
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+table+div a:hover,
+.page-header+p+div a:hover {
+    background-color: #475569;
+    box-shadow: 0 4px 6px rgba(100, 116, 139, 0.3);
+}
+
+table+div a:active,
+.page-header+p+div a:active {
+    transform: translateY(1px);
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 24px;
+    }
+    .page-header p {
+        font-size: 13px;
+    }
+    table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    th,
+    td {
+        padding: 12px 8px;
+    }
+    th {
+        font-size: 12px;
+    }
+    td {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 20px;
+    }
+    table {
+        font-size: 11px;
+    }
+    th,
+    td {
+        padding: 10px 6px;
+    }
+    table+div a,
+    .page-header+p+div a {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .page-header+p {
+        padding: 30px 15px;
+        font-size: 14px;
+    }
+}

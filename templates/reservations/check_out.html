@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{%load static %}
+{% load humanize %}
+{% block title %}Check Out{% endblock %}
+
+{% block page_title %}Check Out Reservation{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/checkin_checkout.css' %}">
+
+<div class="checkin-container">
+    <div class="reservation-summary-card">
+        <h3 class="summary-title">Reservation Summary</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <span class="summary-label">Guest</span>
+                <span class="summary-value">{{ reservation.guest.first_name }} {{ reservation.guest.last_name }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Room</span>
+                <span class="summary-value">{{ reservation.room.room_number }} ({{ reservation.room.room_type.name }})</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Check-in Date</span>
+                <span class="summary-value">{{ reservation.check_in_date|date:"M d, Y" }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Check-out Date</span>
+                <span class="summary-value">{{ reservation.check_out_date|date:"M d, Y" }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Status</span>
+                <span class="summary-value">{{ reservation.status|title }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkin-form-card checkout-variant">
+        <form method="POST" class="checkin-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                    {% if field.field.required %}<span class="required">*</span>{% endif %}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit btn-checkout-submit">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Confirm Check Out
+                </button>
+                <a href="{% url 'reservation_detail' reservation.pk %}" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

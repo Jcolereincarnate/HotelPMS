@@ -1,0 +1,274 @@
+/* Folio Detail Page Styles */
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #10B981;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0ea371;
+}
+
+.btn-secondary {
+    background-color: #e0e6ed;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d9e0;
+}
+
+.folio-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.folio-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+.section-title {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 15px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.folio-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.folio-table thead {
+    background-color: #f8f9fa;
+}
+
+.folio-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.folio-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+    transition: background-color 0.15s ease;
+}
+
+.folio-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.folio-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.folio-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.folio-table .total-cell,
+.folio-table .amount-cell {
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    color: #95a5a6;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+.charges-summary {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: #95a5a6;
+    font-weight: 500;
+}
+
+.summary-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.summary-value.discount {
+    color: #e74c3c;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background-color: #d4edda;
+    color: #27ae60;
+}
+
+.badge-warning {
+    background-color: #fff3cd;
+    color: #f39c12;
+}
+
+.badge-danger {
+    background-color: #f8d7da;
+    color: #e74c3c;
+}
+
+.folio-sidebar .card {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-title {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.billing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.billing-label {
+    font-size: 12px;
+    color: #95a5a6;
+    font-weight: 500;
+}
+
+.billing-amount {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.billing-amount.total {
+    color: #2c3e50;
+}
+
+.billing-amount.paid {
+    color: #27ae60;
+}
+
+.balance-card {
+    margin-top: 16px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.balance-label {
+    font-size: 12px;
+    color: #95a5a6;
+    font-weight: 500;
+}
+
+.balance-amount {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.balance-amount.outstanding {
+    color: #e74c3c;
+}
+
+.balance-amount.settled {
+    color: #27ae60;
+}
+
+.status-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-label {
+    font-size: 12px;
+    color: #95a5a6;
+    font-weight: 500;
+}
+
+.status-section .badge {
+    font-size: 14px;
+    padding: 8px 16px;
+    text-align: center;
+}
+
+@media (max-width: 968px) {
+    .folio-grid {
+        grid-template-columns: 1fr;
+    }
+    .folio-sidebar .card {
+        position: static;
+    }
+}

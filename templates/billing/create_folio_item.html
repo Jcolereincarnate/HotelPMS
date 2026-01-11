@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Add Line Item to Folio #{{ folio.id }}</h1>
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn-primary">Add Item</button>
+    <a href="{% url 'folio_detail' folio.id %}" class="btn-secondary">Cancel</a>
+</form>
+{% endblock %}

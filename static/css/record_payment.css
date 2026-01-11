@@ -1,0 +1,109 @@
+/* Record Payment Page Styles - Inherits from add_charge.css patterns */
+
+.form-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    max-width: 600px;
+}
+
+.styled-form p {
+    margin-bottom: 20px;
+}
+
+.styled-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 6px;
+}
+
+.styled-form input[type="text"],
+.styled-form input[type="number"],
+.styled-form input[type="date"],
+.styled-form input[type="email"],
+.styled-form textarea,
+.styled-form select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #2c3e50;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.styled-form input:focus,
+.styled-form textarea:focus,
+.styled-form select:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.styled-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.styled-form .helptext {
+    display: block;
+    font-size: 12px;
+    color: #95a5a6;
+    margin-top: 4px;
+}
+
+.styled-form .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0 0;
+}
+
+.styled-form .errorlist li {
+    color: #e74c3c;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #ecf0f1;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #10B981;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0ea371;
+}
+
+.btn-secondary {
+    background-color: #e0e6ed;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d9e0;
+}

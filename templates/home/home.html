@@ -1,0 +1,188 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block title %}Home - Luxury Haven Hotel{% endblock %}
+{% block content %}
+
+<main>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-label">Welcome to Luxury Haven</span>
+            <h1 class="hero-title">Experience Timeless Luxury</h1>
+            <p class="hero-subtitle">Discover the pinnacle of comfort and elegance. Where every stay becomes an unforgettable journey of refined hospitality and exceptional service.</p>
+            <div class="hero-buttons">
+                <a href="/reservation" class="btn btn-primary btn-large">Make a Reservation</a>
+                <a href="/about" class="btn btn-outline btn-large">Discover More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="rooms-section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-label">Accommodations</span>
+                <h2>Our Elegant Rooms</h2>
+                <p>Each room is thoughtfully designed to provide the perfect blend of comfort, style, and modern amenities.</p>
+            </div>
+            <div class="rooms-grid">
+                <article class="room-card">
+                    <div class="room-image slideshow">
+                        <img src="{% static 'images/single-room-1.jpg' %}" alt="Single Room" class="slide active">
+                        <img src="{% static 'images/single-room-2.jpg' %}" alt="Single Room" class="slide">
+                        <img src="{% static 'images/single-room-3.jpg' %}" alt="Single Room" class="slide">
+                    </div>
+                    <div class="room-content">
+                        <h3>Single Room</h3>
+                        <p>Cozy and comfortable rooms with modern amenities, perfect for a restful stay.</p>
+                        <div class="room-footer">
+                            <span class="room-price">₦40,000<span>/ night</span></span>
+                            <a href="/reservation" class="room-link">Book Now</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Double Room -->
+                <article class="room-card">
+                    <div class="room-image slideshow">
+                        <img src="{% static 'images/double-room-1.jpg' %}" alt="Double Room" class="slide active">
+                        <img src="{% static 'images/double-room-2.jpg' %}" alt="Double Room" class="slide">
+                        <img src="{% static 'images/double-room-3.jpg' %}" alt="Double Room" class="slide">
+                    </div>
+                    <div class="room-content">
+                        <h3>Double rooms</h3>
+                        <p>Spacious suites with premium furnishings and breathtaking city views.</p>
+                        <div class="room-footer">
+                            <span class="room-price">₦60,000<span>/ night</span></span>
+                            <a href="/reservation" class="room-link">Book Now</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Presidential Suite -->
+                <article class="room-card">
+                    <div class="room-image slideshow">
+                        <img src="{% static 'images/presidential-suite-1.jpg' %}" alt="Presidential Suite" class="slide active">
+                        <img src="{% static 'images/presidential-suite-2.jpg' %}" alt="Presidential Suite" class="slide">
+                        <img src="{% static 'images/presidential-suite-3.jpg' %}" alt="Presidential Suite" class="slide">
+                    </div>
+                    <div class="room-content">
+                        <h3>Presidential suite</h3>
+                        <p>Ultimate luxury with exclusive amenities and personalized butler service.</p>
+                        <div class="room-footer">
+                            <span class="room-price">₦100,000<span>/ night</span></span>
+                            <a href="/reservation" class="room-link">Book Now</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="amenities-section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-label">Facilities</span>
+                <h2>Premium Amenities</h2>
+                <p>Indulge in world-class facilities designed for your comfort and pleasure.</p>
+            </div>
+            <div class="amenities-grid">
+                <article class="amenity-card">
+                    <div class="amenity-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12h20M2 12c0 4.4 3.6 8 8 8s8-3.6 8-8M2 12c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Spa & Wellness</h3>
+                    <p>Rejuvenate with our world-class spa services and wellness treatments.</p>
+                </article>
+                <article class="amenity-card">
+                    <div class="amenity-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <line x1="6" y1="1" x2="6" y2="4"/>
+                            <line x1="10" y1="1" x2="10" y2="4"/>
+                            <line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                    </div>
+                    <h3>Fine Dining</h3>
+                    <p>Culinary excellence from our award-winning chefs in elegant settings.</p>
+                </article>
+                <article class="amenity-card">
+                    <div class="amenity-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                            <polyline points="17 2 12 7 7 2"/>
+                        </svg>
+                    </div>
+                    <h3>Entertainment</h3>
+                    <p>Live performances and cultural events for memorable evenings.</p>
+                </article>
+                <article class="amenity-card">
+                    <div class="amenity-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <h3>Business Center</h3>
+                    <p>State-of-the-art facilities for professionals and corporate events.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-label">Services</span>
+                <h2>At Your Service</h2>
+                <p>Our dedicated team ensures every moment of your stay exceeds expectations.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-item">24/7 Concierge Service</div>
+                <div class="service-item">Complimentary High-Speed WiFi</div>
+                <div class="service-item">In-Room Dining Service</div>
+                <div class="service-item">Private Airport Transfers</div>
+                <div class="service-item">Fully-Equipped Fitness Center</div>
+                <div class="service-item">Heated Indoor Swimming Pool</div>
+                <div class="service-item">Valet Parking Service</div>
+                <div class="service-item">Daily Housekeeping</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript for slideshow -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Slideshow script loaded');
+        
+        const slideshows = document.querySelectorAll('.slideshow');
+        console.log('Found slideshows:', slideshows.length);
+        
+        slideshows.forEach((slideshow, index) => {
+            const slides = slideshow.querySelectorAll('.slide');
+            console.log(`Slideshow ${index} has ${slides.length} slides`);
+            
+            if (slides.length === 0) return;
+            
+            let currentSlide = 0;
+            slides[0].classList.add('active');
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 3000);
+        });
+    });
+    </script>
+
+</main>
+{% endblock %}

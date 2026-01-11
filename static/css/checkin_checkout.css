@@ -1,0 +1,263 @@
+.checkin-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+/* ========================================
+   RESERVATION SUMMARY CARD
+   ======================================== */
+
+.reservation-summary-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.summary-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 20px 0;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #F3F4F6;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: #6B7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value {
+    font-size: 14px;
+    color: #1F2937;
+    font-weight: 600;
+}
+
+
+/* ========================================
+   PAYMENT CONFIRMED CARD
+   ======================================== */
+
+.payment-confirmed-card {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border: 1px solid #10B981;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+}
+
+.confirmed-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #10B981;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.confirmed-content {
+    flex: 1;
+}
+
+.confirmed-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #047857;
+    margin: 0 0 12px 0;
+}
+
+.folio-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.folio-details p {
+    font-size: 14px;
+    color: #059669;
+    margin: 0;
+}
+
+.balance-warning {
+    color: #D97706 !important;
+    font-weight: 600;
+}
+
+.fully-paid {
+    color: #047857 !important;
+    font-weight: 600;
+}
+
+.view-folio-link {
+    color: #047857;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.view-folio-link:hover {
+    color: #065F46;
+}
+
+
+/* ========================================
+   CHECK-IN FORM CARD
+   ======================================== */
+
+.checkin-form-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.checkout-variant {
+    border-color: #F59E0B;
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+}
+
+.checkin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-errors {
+    background: #FEF2F2;
+    border: 1px solid #FEE2E2;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #DC2626;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-checkout-submit {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.btn-checkout-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .checkin-container {
+        padding: 0 16px;
+    }
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    .payment-confirmed-card {
+        flex-direction: column;
+    }
+    .reservation-summary-card,
+    .checkin-form-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .form-actions {
+        flex-direction: column;
+    }
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+body.dark-mode .reservation-summary-card,
+body.dark-mode .checkin-form-card {
+    background-color: #1F2937;
+    border-color: #374151;
+}
+
+body.dark-mode .checkout-variant {
+    background: linear-gradient(135deg, #78350F 0%, #92400E 100%);
+    border-color: #F59E0B;
+}
+
+body.dark-mode .summary-title {
+    color: #F9FAFB;
+    border-color: #374151;
+}
+
+body.dark-mode .summary-value {
+    color: #F9FAFB;
+}
+
+body.dark-mode .summary-label {
+    color: #9CA3AF;
+}
+
+body.dark-mode .payment-confirmed-card {
+    background: linear-gradient(135deg, #065F46 0%, #047857 100%);
+    border-color: #10B981;
+}
+
+body.dark-mode .confirmed-content h3 {
+    color: #D1FAE5;
+}
+
+body.dark-mode .folio-details p {
+    color: #A7F3D0;
+}
+
+body.dark-mode .view-folio-link {
+    color: #D1FAE5;
+}
+
+body.dark-mode .view-folio-link:hover {
+    color: #ECFDF5;
+}
+
+body.dark-mode .form-errors {
+    background-color: #7F1D1D;
+    border-color: #991B1B;
+}
+
+body.dark-mode .error-message {
+    color: #FECACA;
+}

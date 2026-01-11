@@ -1,0 +1,236 @@
+        /* Room Detail Page Styles */
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #10B981;
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0ea371;
+        }
+        
+        .btn-secondary {
+            background-color: #e0e6ed;
+            color: #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d1d9e0;
+        }
+        
+        .room-detail-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .detail-card {
+            padding: 0;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .room-number-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #e8f4f8;
+            color: #3498db;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 24px;
+        }
+        
+        .info-section {
+            margin-bottom: 28px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .description-text {
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .detail-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .detail-box-full {
+            grid-column: 1 / -1;
+        }
+        
+        .detail-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .icon-price {
+            background-color: #f0fdf7;
+            color: #10B981;
+        }
+        
+        .icon-occupancy {
+            background-color: #e8f4f8;
+            color: #3498db;
+        }
+        
+        .icon-amenities {
+            background-color: #fff3cd;
+            color: #f39c12;
+        }
+        
+        .detail-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #95a5a6;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .text-muted {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        .action-card {
+            padding: 24px;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        
+        .action-item:hover {
+            background-color: #e8f4f8;
+            border-color: #3498db;
+            transform: translateX(4px);
+        }
+        
+        .action-item svg {
+            color: #3498db;
+            flex-shrink: 0;
+        }
+        
+        .action-danger {
+            color: #e74c3c;
+        }
+        
+        .action-danger:hover {
+            background-color: #fee;
+            border-color: #e74c3c;
+        }
+        
+        .action-danger svg {
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 968px) {
+            .room-detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }

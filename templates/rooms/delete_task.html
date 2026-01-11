@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Delete Task{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/delete_confirmation.css' %}">
+
+<div class="page-header">
+    <div>
+        <h1>Delete Task</h1>
+        <p>Confirm deletion of this housekeeping task</p>
+    </div>
+</div>
+
+<div class="confirmation-card">
+    <div class="warning-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+    </div>
+    
+    <h2 class="confirmation-title">Are you sure?</h2>
+    <p class="confirmation-message">This action cannot be undone. This will permanently delete the housekeeping task.</p>
+    
+    <div class="task-preview">
+        <div class="preview-item">
+            <span class="preview-label">Task Type:</span>
+            <span class="preview-value">{{ task.task_type }}</span>
+        </div>
+        <div class="preview-item">
+            <span class="preview-label">Room:</span>
+            <span class="preview-value">{{ task.room }}</span>
+        </div>
+        <div class="preview-item">
+            <span class="preview-label">Description:</span>
+            <span class="preview-value">{{ task.description|default:"No description" }}</span>
+        </div>
+    </div>
+    
+    <form method="POST" class="confirmation-form">
+        {% csrf_token %}
+        <div class="confirmation-actions">
+            <button type="submit" class="btn btn-danger">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                Yes, Delete Task
+            </button>
+            <a href="{% url 'task_detail' task.pk %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

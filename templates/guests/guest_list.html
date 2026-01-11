@@ -1,0 +1,122 @@
+     {% extends "core/base.html" %}
+     {% load static %}
+     {% load humanize %}
+     {% block title %}Guest Management{% endblock %}
+     
+     {% block page_title %}Guest Management{% endblock %}
+     
+     {% block content %}
+     <link rel="stylesheet" href="{% static 'css/guest_list.css' %}">
+     
+     <!-- Page Actions -->
+     <div class="page-actions-right">
+         <a href="{% url 'create_guest' %}" class="btn-add-guest">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <line x1="12" y1="5" x2="12" y2="19"/>
+                 <line x1="5" y1="12" x2="19" y2="12"/>
+             </svg>
+             Add Guest
+         </a>
+     </div>
+     
+     <!-- Filter Card -->
+     <div class="filter-card">
+         <form method="get" class="filter-form">
+             <div class="filter-grid">
+                 <div class="filter-group">
+                     <label for="search" class="filter-label">Search</label>
+                     <input type="text" name="search" id="search" placeholder="Name, email, or phone..." value="{{ search }}" class="filter-input">
+                 </div>
+                 
+                 <div class="filter-group">
+                     <label for="vip" class="filter-label">Guest Type</label>
+                     <select name="vip" id="vip" class="filter-select">
+                         <option value="">All Guests</option>
+                         <option value="true" {% if vip_filter == 'true' %}selected{% endif %}>VIP Only</option>
+                     </select>
+                 </div>
+             </div>
+             
+             <div class="filter-actions">
+                 <button type="submit" class="btn-filter-submit">
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                         <circle cx="11" cy="11" r="8"/>
+                         <path d="m21 21-4.35-4.35"/>
+                     </svg>
+                     Search
+                 </button>
+                 {% if search or vip_filter %}
+                 <a href="{% url 'guest_list' %}" class="btn-filter-clear">Clear</a>
+                 {% endif %}
+             </div>
+         </form>
+     </div>
+     
+     <!-- Guests Table Card -->
+     <div class="table-card">
+         <div class="table-responsive">
+             <table class="guests-table">
+                 <thead>
+                     <tr>
+                         <th>Name</th>
+                         <th>Email</th>
+                         <th>Phone</th>
+                         <th>Total Stays</th>
+                         <th>Total Spent</th>
+                         <th>Status</th>
+                         <th>Actions</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+     {% for guest in guests %}
+                     <tr>
+                         <td class="name-cell">
+                             <div class="guest-name-wrapper">
+                                 <div class="guest-avatar-mini">{{ guest.first_name.0 }}{{ guest.last_name.0 }}</div>
+                                 <span class="guest-name">{{ guest.first_name }} {{ guest.last_name }}</span>
+                             </div>
+                         </td>
+                         <td class="email-cell">{{ guest.email }}</td>
+                         <td class="phone-cell">{{ guest.phone }}</td>
+                         <td class="stays-cell">{{ guest.total_stays }} stays</td>
+                         <td class="amount-cell">₦{{ guest.total_spent|floatformat:2|intcomma }}</td>
+                         <td>
+     {% if guest.vip %}
+                             <span class="guest-status guest-status-vip">VIP</span>
+     {% else %}
+                             <span class="guest-status guest-status-regular">Regular</span>
+     {% endif %}
+                         </td>
+                         <td class="actions-cell">
+                             <a href="{% url 'guest_detail' guest.pk %}" class="action-btn action-view" title="View">
+                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                     <circle cx="12" cy="12" r="3"/>
+                                 </svg>
+                             </a>
+                             <a href="{% url 'edit_guest' guest.pk %}" class="action-btn action-edit" title="Edit">
+                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                 </svg>
+                             </a>
+                         </td>
+                     </tr>
+     {% empty %}
+                     <tr>
+                         <td colspan="7">
+                             <div class="empty-state">
+                                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                     <circle cx="9" cy="7" r="4"/>
+                                 </svg>
+                                 <p>No guests found</p>
+                             </div>
+                         </td>
+                     </tr>
+     {% endfor %}
+                 </tbody>
+             </table>
+         </div>
+     </div>
+     {% endblock %}

@@ -1,0 +1,235 @@
+<!-- templates/analytics/occupancy_analytics.html -->
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Occupancy Analytics{% endblock %}
+
+{% block page_title %}Occupancy Analytics{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/occupancy.css' %}">
+
+<!-- Page Subtitle -->
+<div class="page-subtitle">
+    <p>Analysis of room occupancy and guest trends</p>
+</div>
+
+<!-- Metric Cards Grid -->
+<div class="metrics-grid">
+    <!-- Current Period Occupancy Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="metric-label">Current Period Average Occupancy</span>
+        </div>
+        <div class="metric-value">{{ current_period.avg_occupancy|floatformat:2|default:"0.00" }}%</div>
+        <div class="metric-subtitle">Last 30 days average</div>
+    </div>
+
+    <!-- Previous Period Occupancy Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper metric-icon-gray">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+            </div>
+            <span class="metric-label">Previous Period Average Occupancy</span>
+        </div>
+        <div class="metric-value">{{ previous_period.avg_occupancy|floatformat:2|default:"0.00" }}%</div>
+        <div class="metric-subtitle">Previous 30 days average</div>
+    </div>
+
+    <!-- Occupancy Trend Card -->
+    <div class="metric-card">
+        <div class="metric-header">
+            <div class="metric-icon-wrapper {% if occupancy_trend >= 0 %}metric-icon-green{% else %}metric-icon-red{% endif %}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+{% if occupancy_trend >= 0 %}
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                    <polyline points="17 6 23 6 23 12"/>
+{% else %}
+                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
+                    <polyline points="17 18 23 18 23 12"/>
+{% endif %}
+                </svg>
+            </div>
+            <span class="metric-label">Occupancy Trend</span>
+        </div>
+        <div class="metric-value {% if occupancy_trend >= 0 %}trend-positive{% else %}trend-negative{% endif %}">
+{% if occupancy_trend >= 0 %}+{% endif %}{{ occupancy_trend|default:"0" }}%
+        </div>
+        <div class="metric-subtitle">
+{% if occupancy_trend >= 0 %}Increase{% else %}Decrease{% endif %} from previous period
+        </div>
+    </div>
+</div>
+
+<!-- Daily Occupancy Chart -->
+<div class="chart-card-full">
+    <div class="chart-header">
+        <h3 class="chart-title">Daily Occupancy Trend</h3>
+        <div class="chart-legend">
+            <div class="legend-item">
+                <span class="legend-dot" style="background-color: #3B82F6;"></span>
+                <span class="legend-label">Occupancy Rate (%)</span>
+            </div>
+        </div>
+    </div>
+    <div class="chart-body-large">
+        <canvas id="occupancyChart"></canvas>
+    </div>
+</div>
+
+<!-- Daily Data Table -->
+<div class="data-table-card">
+    <div class="table-header">
+        <h3 class="table-title">Daily Occupancy Details</h3>
+        <button class="export-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Occupancy Rate</th>
+                    <th>Guest Count</th>
+                    <th>Total Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+{% for item in daily_data %}
+                <tr>
+                    <td class="date-cell">{{ item.date }}</td>
+                    <td class="percentage-cell">
+                        <div class="percentage-wrapper">
+                            <span class="percentage-value">{{ item.occupancy_rate }}%</span>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: {{ item.occupancy_rate }}%;"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="count-cell">{{ item.guest_count }} guests</td>
+                    <td class="revenue-cell">₦{{ item.total_revenue|floatformat:2|intcomma }}</td>
+                </tr>
+{% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-state">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            </svg>
+                            <p>No occupancy data available</p>
+                        </div>
+                    </td>
+                </tr>
+{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const occLabels = [
+{% for item in daily_data %}
+    "{{ item.date }}",
+{% endfor %}
+];
+
+const occData = [
+{% for item in daily_data %}
+    {{ item.occupancy_rate|default:"0" }},
+{% endfor %}
+];
+
+new Chart(document.getElementById('occupancyChart'), {
+    type: 'line',
+    data: {
+        labels: occLabels,
+        datasets: [{
+            label: "Daily Occupancy Rate (%)",
+            data: occData,
+            borderColor: '#3B82F6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#3B82F6',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: '#1F2937',
+                padding: 12,
+                titleColor: '#F9FAFB',
+                bodyColor: '#F9FAFB',
+                borderColor: '#374151',
+                borderWidth: 1,
+                callbacks: {
+                    label: function(context) {
+                        return 'Occupancy: ' + context.parsed.y + '%';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                grid: {
+                    color: '#F3F4F6',
+                    drawBorder: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 },
+                    callback: function(value) {
+                        return value + '%';
+                    }
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                border: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6B7280',
+                    font: { size: 12 },
+                    maxRotation: 45,
+                    minRotation: 45
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

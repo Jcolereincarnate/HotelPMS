@@ -1,0 +1,60 @@
+/* Confirm Paystack Payment Styles */
+
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.card p {
+    margin: 12px 0;
+    font-size: 14px;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.card p strong {
+    font-weight: 600;
+    color: #2c3e50;
+    display: inline-block;
+    min-width: 100px;
+}
+
+.btn-primary {
+    background-color: #10B981;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+    margin-right: 12px;
+}
+
+.btn-primary:hover {
+    background-color: #0ea371;
+}
+
+.btn-secondary {
+    background-color: #e0e6ed;
+    color: #2c3e50;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d9e0;
+}

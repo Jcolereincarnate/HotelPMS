@@ -1,0 +1,209 @@
+<!-- templates/guests/guest_detail.html -->
+{% extends "core/base.html" %}
+{%load static%}
+{% load humanize %}
+
+{% block title %}{{ guest.first_name }} {{ guest.last_name }}{% endblock %}
+
+{% block page_title %}{{ guest.first_name }} {{ guest.last_name }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/guest_detail.css' %}">
+
+<!-- Page Actions -->
+<div class="page-actions">
+    <a href="{% url 'edit_guest' guest.pk %}" class="btn-action btn-edit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Edit
+    </a>
+    <a href="{% url 'toggle_vip' guest.pk %}" class="btn-action {% if guest.vip %}btn-warning{% else %}btn-success{% endif %}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        {% if guest.vip %}Remove VIP{% else %}Mark VIP{% endif %}
+    </a>
+</div>
+
+<!-- Main Content Grid -->
+<div class="detail-grid">
+    <!-- Personal Information Card -->
+    <div class="detail-card detail-card-main">
+        <div class="card-header">
+            <h2 class="card-title">Personal Information</h2>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Email</div>
+                <div class="info-value">{{ guest.email }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Phone</div>
+                <div class="info-value">{{ guest.phone }}</div>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Date of Birth</div>
+                <div class="info-value">{{ guest.date_of_birth|default:"Not provided" }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Gender</div>
+                <div class="info-value">{{ guest.get_gender_display|default:"Not provided" }}</div>
+            </div>
+        </div>
+        
+        {% if guest.id_number %}
+        <div class="info-highlight">
+            <div class="highlight-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+            </div>
+            <div class="highlight-content">
+                <div class="highlight-label">ID Information</div>
+                <div class="highlight-value">{{ guest.id_type }}: {{ guest.id_number }}</div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if guest.contact %}
+        <div class="info-highlight">
+            <div class="highlight-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+            </div>
+            <div class="highlight-content">
+                <div class="highlight-label">Emergency Contact</div>
+                <div class="highlight-value">
+                    <strong>{{ guest.contact.emergency_contact_name }}</strong> ({{ guest.contact.emergency_contact_relation }})<br>
+                    {{ guest.contact.emergency_contact_phone }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar Cards -->
+    <div class="detail-sidebar">
+        <!-- Guest Statistics Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <h3 class="card-title">Guest Statistics</h3>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-label">Total Stays</div>
+                <div class="stat-value stat-value-blue">{{ guest.total_stays }}</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-label">Total Spent</div>
+                <div class="stat-value stat-value-green">₦{{ guest.total_spent|floatformat:2|intcomma }}</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-label">Member Since</div>
+                <div class="stat-value-small">{{ guest.created_at|date:"M d, Y" }}</div>
+            </div>
+        </div>
+        
+        <!-- Status Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <h3 class="card-title">Status</h3>
+            </div>
+            
+            <div class="status-wrapper">
+                {% if guest.vip %}
+                <span class="status-badge status-vip">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    VIP Guest
+                </span>
+                {% else %}
+                <span class="status-badge status-regular">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Regular Guest
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Reservations Table -->
+<div class="reservations-card">
+    <div class="reservations-header">
+        <h3 class="reservations-title">Recent Reservations</h3>
+        <a href="{% url 'guest_history' guest.pk %}" class="btn-view-all">
+            View All
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+        </a>
+    </div>
+    
+    {% if reservations %}
+    <div class="table-responsive">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td class="room-cell">
+                        <span class="room-badge">{{ reservation.room.room_number }}</span>
+                    </td>
+                    <td>{{ reservation.check_in_date|date:"M d, Y" }}</td>
+                    <td>{{ reservation.check_out_date|date:"M d, Y" }}</td>
+                    <td>
+                        {% if reservation.status == 'confirmed' %}
+                        <span class="res-status res-status-info">{{ reservation.get_status_display }}</span>
+                        {% elif reservation.status == 'checked_in' %}
+                        <span class="res-status res-status-success">{{ reservation.get_status_display }}</span>
+                        {% elif reservation.status == 'checked_out' %}
+                        <span class="res-status res-status-warning">{{ reservation.get_status_display }}</span>
+                        {% else %}
+                        <span class="res-status res-status-danger">{{ reservation.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="amount-cell">₦{{ reservation.total_price|floatformat:2|intcomma }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <p>No reservations yet</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

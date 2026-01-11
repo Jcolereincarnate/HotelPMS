@@ -1,0 +1,78 @@
+
+          {% extends "core/base.html" %}
+          {% load static %}
+          {% load humanize %}
+          {% block title %}Guest Reservation History{% endblock %}
+          
+          {% block page_title %}{{ guest.first_name }} {{ guest.last_name }} - Reservation History{% endblock %}
+          
+          {% block content %}
+          <link rel="stylesheet" href="{% static 'css/guest_detail.css' %}">
+          
+          <div class="page-subtitle">
+              <p>All reservations for this guest, ordered by most recent check-in</p>
+          </div>
+          
+          <div class="reservations-card">
+              {% if reservations %}
+              <div class="table-responsive">
+                  <table class="reservations-table">
+                      <thead>
+                          <tr>
+                              <th>Reservation ID</th>
+                              <th>Room</th>
+                              <th>Check-In</th>
+                              <th>Check-Out</th>
+                              <th>Status</th>
+                              <th>Total Price</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+          {% for res in reservations %}
+                          <tr>
+                              <td class="id-cell">#{{ res.id }}</td>
+                              <td class="room-cell">
+                                  <span class="room-badge">{{ res.room.room_number }}</span>
+                              </td>
+                              <td>{{ res.check_in_date|date:"M d, Y" }}</td>
+                              <td>{{ res.check_out_date|date:"M d, Y" }}</td>
+                              <td>
+                                  {% if res.status == 'confirmed' %}
+                                  <span class="res-status res-status-info">{{ res.status|title }}</span>
+                                  {% elif res.status == 'checked_in' %}
+                                  <span class="res-status res-status-success">{{ res.status|title }}</span>
+                                  {% elif res.status == 'checked_out' %}
+                                  <span class="res-status res-status-warning">{{ res.status|title }}</span>
+                                  {% else %}
+                                  <span class="res-status res-status-danger">{{ res.status|title }}</span>
+                                  {% endif %}
+                              </td>
+                              <td class="amount-cell">₦{{ res.total_price|floatformat:2|intcomma }}</td>
+                          </tr>
+          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              {% else %}
+              <div class="empty-state">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="3" y="4" width="18" height="18" rx="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <p>No reservations found for this guest</p>
+              </div>
+              {% endif %}
+              
+              <div class="back-link-wrapper">
+                  <a href="{% url 'guest_list' %}" class="btn-back">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="19" y1="12" x2="5" y2="12"/>
+                          <polyline points="12 19 5 12 12 5"/>
+                      </svg>
+                      Back to Guests
+                  </a>
+              </div>
+          </div>
+          {% endblock %}

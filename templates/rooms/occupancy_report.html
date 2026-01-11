@@ -1,0 +1,121 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Room Occupancy Report{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/occupancy_report.css' %}">
+
+<div class="page-subtitle">
+    <div>
+        <h1>Room Occupancy Report</h1>
+        <p>Overview of room availability and usage</p>
+    </div>
+</div>
+
+<div class="summary-cards">
+    <div class="summary-card">
+        <div class="summary-icon icon-total">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Total Rooms</h3>
+            <p class="summary-value">{{ total_rooms }}</p>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon icon-occupied">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Occupied</h3>
+            <p class="summary-value">{{ occupied }}</p>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon icon-available">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Available</h3>
+            <p class="summary-value">{{ available }}</p>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon icon-maintenance">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Maintenance</h3>
+            <p class="summary-value">{{ maintenance }}</p>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon icon-cleaning">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M18.7 8c-1.5-3.4-4.5-6-8.2-6-1 0-2 .2-2.8.5"/>
+                <circle cx="14" cy="8" r="2"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Cleaning</h3>
+            <p class="summary-value">{{ cleaning }}</p>
+        </div>
+    </div>
+
+    <div class="summary-card card-highlight">
+        <div class="summary-icon icon-rate">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+        </div>
+        <div class="summary-content">
+            <h3 class="summary-label">Occupancy Rate</h3>
+            <p class="summary-value highlight">{{ occupancy_rate }}%</p>
+        </div>
+    </div>
+</div>
+
+<div class="report-section">
+    <h2 class="section-title">Rooms by Type</h2>
+    <div class="table-card">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Room Type</th>
+                    <th>Total Rooms</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for type in rooms_by_type %}
+                <tr>
+                    <td class="type-name">{{ type.name }}</td>
+                    <td class="type-count">{{ type.count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="empty-row">No room types found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

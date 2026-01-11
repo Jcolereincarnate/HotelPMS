@@ -1,0 +1,490 @@
+/* static/css/reservation_detail.css */
+
+
+/* ========================================
+   RESERVATION ACTIONS
+   ======================================== */
+
+.reservation-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-checkin {
+    background: #10B981;
+    color: white;
+}
+
+.btn-checkin:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-checkout {
+    background: #F59E0B;
+    color: white;
+}
+
+.btn-checkout:hover {
+    background: #D97706;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-cancel {
+    background: #EF4444;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+
+/* ========================================
+   PAYMENT ALERT SECTION
+   ======================================== */
+
+.payment-alert-section {
+    margin-bottom: 24px;
+}
+
+.alert-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border-color: #10B981;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border-color: #F59E0B;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border-color: #3B82F6;
+}
+
+.alert-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.alert-success .alert-icon {
+    background: #10B981;
+    color: white;
+}
+
+.alert-warning .alert-icon {
+    background: #F59E0B;
+    color: white;
+}
+
+.alert-info .alert-icon {
+    background: #3B82F6;
+    color: white;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-content h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.alert-success .alert-content h4 {
+    color: #047857;
+}
+
+.alert-warning .alert-content h4 {
+    color: #D97706;
+}
+
+.alert-info .alert-content h4 {
+    color: #2563EB;
+}
+
+.alert-content p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.alert-success .alert-content p {
+    color: #059669;
+}
+
+.alert-warning .alert-content p {
+    color: #B45309;
+}
+
+.alert-info .alert-content p {
+    color: #1D4ED8;
+}
+
+.alert-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.alert-success .alert-action-btn {
+    color: #047857;
+    border: 1px solid #10B981;
+}
+
+.alert-success .alert-action-btn:hover {
+    background: #10B981;
+    color: white;
+}
+
+.alert-warning .alert-action-btn {
+    color: #D97706;
+    border: 1px solid #F59E0B;
+}
+
+.alert-warning .alert-action-btn:hover {
+    background: #F59E0B;
+    color: white;
+}
+
+.alert-info .alert-action-btn {
+    color: #2563EB;
+    border: 1px solid #3B82F6;
+}
+
+.alert-info .alert-action-btn:hover {
+    background: #3B82F6;
+    color: white;
+}
+
+
+/* ========================================
+   STATUS BADGE (in Header)
+   ======================================== */
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #F3F4F6;
+    margin-bottom: 24px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-confirmed {
+    background: #EFF6FF;
+    color: #2563EB;
+}
+
+.status-checked_in {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+.status-checked_out {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.status-cancelled {
+    background: #FEF2F2;
+    color: #DC2626;
+}
+
+
+/* ========================================
+   INFO VALUE MONO (for IDs)
+   ======================================== */
+
+.info-value-mono {
+    font-family: 'Courier New', monospace;
+    color: #6B7280;
+    font-weight: 600;
+}
+
+
+/* ========================================
+   GUEST PROFILE (Sidebar)
+   ======================================== */
+
+.guest-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.guest-avatar-large {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.guest-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.guest-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.guest-email {
+    font-size: 13px;
+    color: #6B7280;
+}
+
+.guest-phone {
+    font-size: 13px;
+    color: #6B7280;
+}
+
+.view-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #F9FAFB;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.view-profile-btn:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+
+/* ========================================
+   BILLING SUMMARY
+   ======================================== */
+
+.billing-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.billing-total {
+    padding-top: 0;
+}
+
+.billing-label {
+    font-size: 14px;
+    color: #6B7280;
+    font-weight: 500;
+}
+
+.billing-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #10B981;
+}
+
+.billing-divider {
+    height: 1px;
+    background: #F3F4F6;
+    margin: 16px 0;
+}
+
+.billing-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #3B82F6;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.billing-link:hover {
+    color: #2563EB;
+    gap: 10px;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .detail-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .reservation-actions {
+        flex-wrap: wrap;
+    }
+    .btn-action {
+        flex: 1;
+        justify-content: center;
+        min-width: 140px;
+    }
+    .alert-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .alert-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .detail-sidebar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .guest-profile {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .view-profile-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+body.dark-mode .alert-success {
+    background: linear-gradient(135deg, #065F46 0%, #047857 100%);
+    border-color: #10B981;
+}
+
+body.dark-mode .alert-warning {
+    background: linear-gradient(135deg, #78350F 0%, #92400E 100%);
+    border-color: #F59E0B;
+}
+
+body.dark-mode .alert-info {
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+    border-color: #3B82F6;
+}
+
+body.dark-mode .alert-success .alert-content h4,
+body.dark-mode .alert-success .alert-content p {
+    color: #D1FAE5;
+}
+
+body.dark-mode .alert-warning .alert-content h4,
+body.dark-mode .alert-warning .alert-content p {
+    color: #FDE68A;
+}
+
+body.dark-mode .alert-info .alert-content h4,
+body.dark-mode .alert-info .alert-content p {
+    color: #DBEAFE;
+}
+
+body.dark-mode .guest-name {
+    color: #F9FAFB;
+}
+
+body.dark-mode .guest-email,
+body.dark-mode .guest-phone {
+    color: #9CA3AF;
+}
+
+body.dark-mode .view-profile-btn,
+body.dark-mode .billing-link {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: #F9FAFB;
+}
+
+body.dark-mode .view-profile-btn:hover {
+    background-color: #4B5563;
+}
+
+body.dark-mode .billing-divider {
+    background: #374151;
+}

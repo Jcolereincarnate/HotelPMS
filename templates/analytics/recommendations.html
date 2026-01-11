@@ -1,0 +1,70 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}AI Recommendations{% endblock %}
+
+{% block page_title %}AI Recommendations{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/analytics_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/occupancy.css' %}">
+
+<div class="page-actions">
+    <a href="{% url 'ai_report_history' %}" class="btn-secondary-action">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        View Report History
+    </a>
+</div>
+
+<div class="recommendations-grid">
+{% for rec in recommendations %}
+    <div class="recommendation-card recommendation-{{ rec.type|default:'info' }}">
+        <div class="recommendation-header">
+            <div class="recommendation-icon">
+{% if rec.type == 'warning' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+{% elif rec.type == 'success' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+{% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+{% endif %}
+            </div>
+            <span class="priority-badge priority-{{ rec.priority|default:'low' }}">
+                {{ rec.priority|upper|default:"LOW" }}
+            </span>
+        </div>
+        
+        <div class="recommendation-content">
+            <h3 class="recommendation-title">{{ rec.title }}</h3>
+            <p class="recommendation-message">{{ rec.message }}</p>
+        </div>
+
+{% if rec.action %}
+        <div class="recommendation-footer">
+            <button class="action-btn">{{ rec.action }}</button>
+        </div>
+{% endif %}
+    </div>
+{% empty %}
+    <div class="empty-state-card">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <h3>All Systems Optimal</h3>
+        <p>All systems operating normally. No recommendations at this time.</p>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

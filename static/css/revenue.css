@@ -1,0 +1,13 @@
+/* ========================================
+   REVENUE ANALYTICS CSS
+   static/css/revenue_analytics.css
+   ======================================== */
+
+.empty-row {
+    text-align: center;
+    color: #9CA3AF;
+    padding: 40px !important;
+}
+
+
+/* All other styles are inherited from occupancy_analytics.css */

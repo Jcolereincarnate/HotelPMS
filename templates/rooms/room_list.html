@@ -1,0 +1,128 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Room Management{% endblock %}
+{% block page_title %}Rooms{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/room_list.css' %}">
+
+<div class="page-subtitle-with-actions">
+    <div class="header-info">
+        <h1>Room Management</h1>
+        <p>Monitor and manage all hotel rooms</p>
+    </div>
+    <div class="header-actions">
+        <a href="{% url 'occupancy_report' %}" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            Occupancy Report
+        </a>
+        <a href="{% url 'create_room_type' %}" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Create Room Type
+        </a>
+        <a href="{% url 'create_room' %}" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Room
+        </a>
+    </div>
+</div>
+
+<div class="filter-card">
+    <form method="get" class="filter-form">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label for="status" class="filter-label">Status</label>
+                <select name="status" id="status" class="filter-select">
+                    <option value="">All Status</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="floor" class="filter-label">Floor</label>
+                <select name="floor" id="floor" class="filter-select">
+                    <option value="">All Floors</option>
+                    {% for floor in floors %}
+                    <option value="{{ floor }}" {% if floor_filter|add:"0" == floor %}selected{% endif %}>Floor {{ floor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            {% if status_filter or floor_filter %}
+            <a href="{% url 'room_list' %}" class="btn btn-secondary">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<div class="room-grid">
+    {% for room in rooms %}
+    <div class="room-card status-{{ room.status }}">
+        <div class="room-header">
+            <div class="room-title-group">
+                <h3 class="room-number">Room {{ room.room_number }}</h3>
+                <p class="room-type">{{ room.room_type.name }}</p>
+            </div>
+            <span class="room-status-badge status-{{ room.status }}">
+                {{ room.get_status_display }}
+            </span>
+        </div>
+        
+        <div class="room-body">
+            <div class="room-price-section">
+                <span class="price-label">Price per Night</span>
+                <span class="price-amount">₦{{ room.price_per_night|intcomma }}</span>
+            </div>
+            
+            <div class="room-details">
+                <div class="detail-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    <span>Floor {{ room.floor }}</span>
+                </div>
+                <div class="detail-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                    <span>Max {{ room.room_type.max_occupancy }} guests</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="room-footer">
+            <a href="{% url 'room_detail' room.pk %}" class="btn-view-room">
+                View Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <p>No rooms found</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

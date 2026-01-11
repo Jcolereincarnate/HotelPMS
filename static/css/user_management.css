@@ -1,0 +1,228 @@
+/* User Management Page Styles */
+
+.header-info {
+    flex: 1;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #10B981;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0ea371;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.table-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.users-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.users-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+    transition: background-color 0.15s ease;
+}
+
+.users-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.users-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.users-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #2c3e50;
+    vertical-align: middle;
+}
+
+.user-cell {
+    min-width: 220px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #10B981;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.user-username {
+    font-size: 12px;
+    color: #95a5a6;
+}
+
+.email-cell {
+    color: #3498db;
+}
+
+.phone-cell {
+    white-space: nowrap;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e8f4f8;
+    color: #3498db;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #27ae60;
+}
+
+.status-inactive {
+    background-color: #f8d7da;
+    color: #e74c3c;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-right: 6px;
+}
+
+.action-btn:last-child {
+    margin-right: 0;
+}
+
+.action-edit {
+    background-color: #e8f4f8;
+    color: #3498db;
+}
+
+.action-edit:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.action-delete {
+    background-color: #fee;
+    color: #e74c3c;
+}
+
+.action-delete:hover {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #95a5a6;
+}
+
+.empty-state svg {
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 15px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .users-table {
+        min-width: 800px;
+    }
+}

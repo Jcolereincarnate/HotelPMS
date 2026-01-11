@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Add Charge - {{ folio.guest.get_full_name }}{% endblock %}
+{% block content %}
+<link "stylesheet" href="{% static 'css/add_charge.css' %}" rel="stylesheet">
+<div class="page-header">
+    <div>
+        <h1>Add Folio Charge</h1>
+        <p>Add a new charge to the guest's folio</p>
+    </div>
+    <a href="{% url 'folio_detail' folio.pk %}" class="btn btn-secondary">Back to Folio</a>
+</div>
+
+<div class="card form-card">
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Charge</button>
+            <a href="{% url 'folio_detail' folio.pk %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

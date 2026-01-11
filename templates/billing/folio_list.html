@@ -1,0 +1,80 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Folios & Billing{% endblock %}
+{% block page_title %}Folio Dashboard{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/folio_list.css' %}">
+
+<div class="page-subtitle">
+    <div>
+        <h1>Folios & Billing</h1>
+        <p>Manage guest accounts and billing</p>
+    </div>
+</div>
+
+<div class="filter-card">
+    <form method="get" class="filter-form">
+        <input type="text" name="search" placeholder="Search by guest name..." value="{{ search }}" class="search-input">
+        
+        <select name="status" class="status-select">
+            <option value="">All Status</option>
+            {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if search or status_filter %}
+        <a href="{% url 'folio_list' %}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="folios-table">
+        <thead>
+            <tr>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for folio in folios %}
+            <tr>
+                <td class="guest-cell">{{ folio.guest.first_name }} {{ folio.guest.last_name }}</td>
+                <td>{{ folio.reservation.room.room_number }}</td>
+                <td>{{ folio.reservation.check_in_date }}</td>
+                <td>{{ folio.reservation.check_out_date }}</td>
+                <td>₦{{ folio.total_amount|floatformat:2|intcomma }}</td>
+                <td>₦{{ folio.amount_paid|floatformat:2|intcomma }}</td>
+                <td>₦{{ folio.balance|floatformat:2|intcomma }}</td>
+                <td>
+                    {% if folio.status == 'open' %}
+                    <span class="badge badge-danger">{{ folio.get_status_display }}</span>
+                    {% elif folio.status == 'partial' %}
+                    <span class="badge badge-warning">{{ folio.get_status_display }}</span>
+                    {% else %}
+                    <span class="badge badge-success">{{ folio.get_status_display }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'folio_detail' folio.pk %}" class="btn-view">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="empty-row">No folios found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
