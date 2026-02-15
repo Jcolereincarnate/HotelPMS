@@ -16,7 +16,7 @@ from analytics.utils import update_daily_metrics
 from .utils  import update_folio_totals 
 from guests.models import Guest
 
-@login_required(login_url='login')
+@login_required(login_url='login')#comment
 @role_required(['admin', 'manager', 'accounting'])
 def billing_dashboard(request):
     today = timezone.now().date()
