@@ -79,10 +79,6 @@
                     <span class="legend-dot legend-dot-blue"></span>
                     <span class="legend-label">Room revenue</span>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-dot legend-dot-orange"></span>
-                    <span class="legend-label">Service revenue</span>
-                </div>
             </div>
         </div>
         <div class="chart-body">
@@ -90,7 +86,7 @@
         </div>
         <div class="chart-highlight">
             <div class="highlight-label">Room revenue</div>
-            <div class="highlight-value">₦{{ occupied_count|default:"0"|intcomma }}</div>
+            <div class="highlight-value">₦{{ today_payments|default:"0"|intcomma }}</div>
 
         </div>
     </div>
@@ -195,13 +191,12 @@
         </a>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {{ revenue_labels|json_script:"revenue-labels" }}
 {{ room_revenue|json_script:"room-revenue" }}
 {{ service_revenue|json_script:"service-revenue" }}
-
 {{ occupancy_labels|json_script:"occupancy-labels" }}
 {{ occupancy_data|json_script:"occupancy-data" }}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
 const revenueLabels = JSON.parse(
@@ -210,9 +205,7 @@ const revenueLabels = JSON.parse(
 const roomRevenueData = JSON.parse(
     document.getElementById('room-revenue').textContent
 );
-const serviceRevenueData = JSON.parse(
-    document.getElementById('service-revenue').textContent
-);
+
 const occupancyLabels = JSON.parse(
     document.getElementById('occupancy-labels').textContent
 );
@@ -237,13 +230,6 @@ if (revenueCanvas) {
                     borderRadius: 6,
                     barPercentage: 0.6
                 },
-                {
-                    label: 'Service revenue',
-                    data: serviceRevenueData,
-                    backgroundColor: '#F97316',
-                    borderRadius: 6,
-                    barPercentage: 0.6
-                }
             ]
         },
         options: {

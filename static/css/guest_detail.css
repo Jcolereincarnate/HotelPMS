@@ -5,6 +5,22 @@
    PAGE ACTIONS
    ======================================== */
 
+.btn {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-link-wrapper {
+    text-align: right;
+}
+
 .page-actions {
     display: flex;
     align-items: center;
@@ -56,6 +72,15 @@
     background: #D97706;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-secondary {
+    background-color: #e0e6ed;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d9e0;
 }
 
 

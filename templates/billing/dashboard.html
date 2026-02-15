@@ -20,13 +20,6 @@
             <span class="metric-label">Today's Revenue</span>
         </div>
         <div class="metric-value">₦{{ today_revenue|floatformat:2|intcomma|default:"0.00" }}</div>
-        <div class="metric-change positive">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                <polyline points="17 6 23 6 23 12"/>
-            </svg>
-            <span>12.5%</span>
-        </div>
     </div>
 
     <!-- Open Folios Card -->
@@ -44,13 +37,6 @@
             <span class="metric-label">Open Folios</span>
         </div>
         <div class="metric-value">{{ open_folios|default:"0" }}</div>
-        <div class="metric-change negative">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
-                <polyline points="17 18 23 18 23 12"/>
-            </svg>
-            <span>3.2%</span>
-        </div>
     </div>
 
     <!-- Partial Payments Card -->
@@ -200,45 +186,54 @@
 </div>
 
 <script>
-// Payment Methods Doughnut Chart
-const paymentMethodsCtx = document.getElementById('paymentMethodsChart').getContext('2d');
-const paymentMethodsChart = new Chart(paymentMethodsCtx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Cash - 35%', 'Card - 40%', 'Transfer - 20%', 'Other - 5%'],
-        datasets: [{
-            data: [35, 40, 20, 5],
-            backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6'],
-            borderWidth: 0,
-            spacing: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    usePointStyle: true,
-                    padding: 15,
-                    font: {
-                        size: 12
-                    },
-                    color: '#6B7280'
-                }
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const paymentData = {{ payment_methods_data|safe }};
+    
+        const labels = Object.keys(paymentData).map(
+            key => `${key} - ${paymentData[key]}%`
+        );
+    
+        const values = Object.values(paymentData);
+    
+        const ctx = document
+            .getElementById('paymentMethodsChart')
+            .getContext('2d');
+    
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        '#10B981', // Cash
+                        '#3B82F6', // Card
+                        '#F59E0B', // Bank Transfer
+                        '#8B5CF6', // Paystack
+                        '#EF4444'  // Cheque
+                    ],
+                    borderWidth: 0,
+                    spacing: 2
+                }]
             },
-            tooltip: {
-                backgroundColor: '#1F2937',
-                padding: 12,
-                titleColor: '#F9FAFB',
-                bodyColor: '#F9FAFB',
-                borderColor: '#374151',
-                borderWidth: 1
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            color: '#6B7280'
+                        }
+                    }
+                }
             }
-        },
-        cutout: '65%'
-    }
-});
-</script>
+        });
+    
+    });
+    </script>
 {% endblock %}

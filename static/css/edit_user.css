@@ -6,7 +6,6 @@ h2 {
     margin-bottom: 24px;
     font-weight: 600;
     padding-bottom: 12px;
-    border-bottom: 2px solid #e2e8f0;
 }
 
 
@@ -26,6 +25,26 @@ form {
 
 form p {
     margin-bottom: 20px;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #F9FAFB;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
 }
 
 

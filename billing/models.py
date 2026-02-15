@@ -53,7 +53,7 @@ class Payment(models.Model):
         ('card', 'Card'),
         ('bank_transfer', 'Bank Transfer'),
         ('paystack', 'Paystack'),
-        ('check', 'Check'),
+        ('cheque', 'Cheque'),
     ]
     
     STATUS_CHOICES = [

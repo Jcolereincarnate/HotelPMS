@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
-from django.db.models import Sum, Q
-from decimal import Decimal
+from django.db.models import Sum, Count,Q
 from core.decorators import role_required
 from reservations.models import ReservationAddon
 from .models import Folio, Payment, FolioLineItem, PaystackTransaction
@@ -21,6 +20,7 @@ from guests.models import Guest
 @role_required(['admin', 'manager', 'accounting'])
 def billing_dashboard(request):
     today = timezone.now().date()
+
     today_payments = Payment.objects.filter(
         created_at__date=today,
         status='completed'
@@ -33,8 +33,37 @@ def billing_dashboard(request):
         status='completed'
     ).count()
 
-    recent_payments = Payment.objects.select_related('folio__guest').order_by('-created_at')[:10]
-    
+    recent_payments = Payment.objects.select_related(
+        'folio__guest'
+    ).order_by('-created_at')[:10]
+
+    PAYMENT_METHODS = {
+        'cash': 'Cash',
+        'card': 'Card',
+        'bank_transfer': 'Bank Transfer',
+        'paystack': 'Paystack',
+        'cheque': 'Cheque',
+    }
+
+    payment_queryset = (
+        Payment.objects
+        .filter(status='completed')
+        .values('payment_method')
+        .annotate(total=Count('id'))
+    )
+
+    totals_by_method = {
+        item['payment_method']: item['total']
+        for item in payment_queryset
+    }
+
+    total_payments = sum(totals_by_method.values()) or 1
+
+    payment_methods_data = {
+        label: round((totals_by_method.get(key, 0) / total_payments) * 100, 1)
+        for key, label in PAYMENT_METHODS.items()
+    }
+
     context = {
         'title': 'Billing Dashboard',
         'today_revenue': today_payments,
@@ -42,9 +71,10 @@ def billing_dashboard(request):
         'partial_folios': partial_folios,
         'settled_today': settled_today,
         'recent_payments': recent_payments,
+        'payment_methods_data': payment_methods_data,
     }
-    return render(request, 'billing/dashboard.html', context)
 
+    return render(request, 'billing/dashboard.html', context)
 @login_required(login_url='login')
 @role_required(['admin', 'manager', 'accounting'])
 def folio_list(request):

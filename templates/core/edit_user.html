@@ -5,12 +5,12 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/edit_user.css' %}">
 
-<div class="page-header">
+<div class="page-subtitle-with-actions">
     <div class="header-info">
         <h1>Edit User</h1>
         <p>Update user information and settings</p>
     </div>
-    <a href="{% url 'user_management' %}" class="btn btn-secondary">
+    <a href="{% url 'user_management' %}" class="btn-back">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="19" y1="12" x2="5" y2="12"/>
             <polyline points="12 19 5 12 12 5"/>

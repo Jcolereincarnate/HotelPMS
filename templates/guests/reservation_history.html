@@ -9,8 +9,17 @@
           {% block content %}
           <link rel="stylesheet" href="{% static 'css/guest_detail.css' %}">
           
-          <div class="page-subtitle">
+          <div class="page-subtitle-with-actions">
               <p>All reservations for this guest, ordered by most recent check-in</p>
+              <div class="back-link-wrapper">
+                <a href="{% url 'guest_list' %}" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Back to Guests
+                </a>
+            </div>
           </div>
           
           <div class="reservations-card">
@@ -64,15 +73,7 @@
                   <p>No reservations found for this guest</p>
               </div>
               {% endif %}
-              
-              <div class="back-link-wrapper">
-                  <a href="{% url 'guest_list' %}" class="btn-back">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <line x1="19" y1="12" x2="5" y2="12"/>
-                          <polyline points="12 19 5 12 12 5"/>
-                      </svg>
-                      Back to Guests
-                  </a>
-              </div>
-          </div>
+            </div>
+           
+      
           {% endblock %}
