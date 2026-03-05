@@ -144,56 +144,8 @@ def add_folio_charge(request, pk):
         'folio': folio,
     }
     return render(request, 'billing/add_charge.html', context)
-'''
-@login_required(login_url='login')
-@role_required(['admin', 'manager', 'accounting'])
-def record_payment(request, pk):
-    folio = get_object_or_404(Folio, pk=pk)
-    folio_line_item = filter(folio=folio)
-    price = int(folio.balance)
-    if request.method == 'POST':
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            payment = form.save(commit=False)
-            payment.folio = folio
-            payment.recorded_by = request.user
-            payment.transaction_ref = f"PMS-{uuid.uuid4().hex[:8].upper()}"
-            
-            if form.cleaned_data['payment_method'] == 'paystack':
-                payment.save()
-                return initiate_paystack_payment(request, payment, folio)
-            else:
-                payment.status = 'completed'
-                payment.save()
-                guest = folio.guest
-                guest.total_spent += form.cleaned_data["amount"]
-                guest.total_stays += 1
-                guest.save()
-                if guest.total_spent >= 100000:
-                    guest.vip = True
-                    guest.save()
 
-                folio.amount_paid = (folio.amount_paid or 0) + payment.amount
-                folio.balance = folio.total_amount - folio.amount_paid
-                
-                if folio.balance <= 0:
-                    folio.status = 'settled'
-                else:
-                    folio.status = 'partial'
-                folio.save()
-                update_daily_metrics()
-                
-                messages.success(request, f'Payment of ₦{payment.amount} recorded successfully')
-                return redirect('folio_detail', pk=pk)
-    else:
-        form = PaymentForm(initial={'amount': price})
-    context = {
-        'title': 'Record Payment',
-        'form': form,
-        'folio': folio,
-    }
-    return render(request, 'billing/record_payment.html', context)
-'''
+
 @login_required(login_url='login')
 @role_required(['admin', 'manager', 'accounting'])
 def record_payment(request, pk):
