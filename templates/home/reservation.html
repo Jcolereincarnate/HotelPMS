@@ -3,41 +3,124 @@
 
 {% block content %}
 <main>
-    <!-- Hero Section -->
-    <section class="reservation-hero">
-        <div class="container">
-            <span class="section-label">Reservations</span>
-            <h1 class="page-title">Book Your Stay</h1>
-            <p>Secure your perfect getaway at Luxury Haven. Experience luxury, comfort, and exceptional service.</p>
-        </div>
-    </section>
 
-    <!-- Guest Form -->
-    <section class="reservation-section">
-        <section class="reservation-section">
-            <div class="container">
-                <div class="reservation-form-wrapper">
-                    <h2>Complete Reservation</h2>
-        
-                    <form method="POST" action="{% url 'reservation' %}" class="reservation-form">
-                        {% csrf_token %}
-                        <!-- Guest Form Fields -->
-                            <legend>Guest Details</legend>
-                            {{ gform.as_p }}
-                        </fieldset>
-                        <!-- Reservation Form Fields -->
-                            <legend>Reservation Details</legend>
-                            {{ rform.as_p }}
-                        </fieldset>
-        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary btn-large">Complete Reservation</button>
-                            <button type="reset" class="btn btn-secondary btn-large">Clear Form</button>
-                        </div>
-                    </form>
-                </div>
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-text">
+        <span class="chip">Reservations</span>
+        <h1 class="page-hero-headline">
+          <span class="page-hero-sub">Book Your</span>
+          STAY
+        </h1>
+        <p class="page-hero-desc">Secure your perfect getaway. Experience luxury, comfort, and exceptional service.</p>
+      </div>
+      <div class="page-hero-image page-hero-image--reservation">
+        <div class="res-hero-badges">
+          <div class="res-badge">
+            <span class="res-badge-num">46+</span>
+            <span>Services</span>
+          </div>
+          <div class="res-badge res-badge--accent">
+            <span class="res-badge-icon">✦</span>
+            <span>Best Rate<br>Guarantee</span>
+          </div>
+          <div class="res-badge">
+            <span class="res-badge-num">24/7</span>
+            <span>Concierge</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ RESERVATION FORM ═══════════════════════════ -->
+  <section class="reservation-body">
+    <div class="container">
+      <div class="reservation-layout">
+
+        <!-- Main form -->
+        <div class="reservation-form-col reveal">
+          <h2 class="form-heading">Complete Your <em>Reservation</em></h2>
+
+          <form method="POST" action="{% url 'reservation' %}" class="reservation-form">
+            {% csrf_token %}
+
+            <!-- Guest Details -->
+            <fieldset class="form-fieldset">
+              <legend class="fieldset-legend">
+                <span class="legend-num">01</span>
+                Guest Details
+              </legend>
+              <div class="fieldset-body">
+                {{ gform.as_p }}
+              </div>
+            </fieldset>
+
+            <!-- Reservation Details -->
+            <fieldset class="form-fieldset">
+              <legend class="fieldset-legend">
+                <span class="legend-num">02</span>
+                Reservation Details
+              </legend>
+              <div class="fieldset-body">
+                {{ rform.as_p }}
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" class="submit-btn">Complete Reservation →</button>
+              <button type="reset" class="reset-btn">Clear Form</button>
             </div>
-        </section>
-    </section>
+          </form>
+        </div>
+
+        <!-- Summary sidebar -->
+        <div class="reservation-sidebar reveal" style="--delay: 0.15s">
+          <div class="sidebar-card">
+            <h3>Why Book <em>Direct?</em></h3>
+            <ul class="sidebar-perks">
+              <li>
+                <span class="perk-icon">✦</span>
+                <div>
+                  <strong>Best Rate Guarantee</strong>
+                  <p>We match or beat any published rate.</p>
+                </div>
+              </li>
+              <li>
+                <span class="perk-icon">✦</span>
+                <div>
+                  <strong>Flexible Cancellation</strong>
+                  <p>Free cancellation up to 48 hours before arrival.</p>
+                </div>
+              </li>
+              <li>
+                <span class="perk-icon">✦</span>
+                <div>
+                  <strong>Room Upgrade Priority</strong>
+                  <p>Direct bookers get complimentary upgrade when available.</p>
+                </div>
+              </li>
+              <li>
+                <span class="perk-icon">✦</span>
+                <div>
+                  <strong>Early Check-in</strong>
+                  <p>Subject to availability at no extra charge.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sidebar-contact-card">
+            <p>Need help with your booking?</p>
+            <a href="tel:+15551234568" class="sidebar-phone">+1 (555) 123-4568</a>
+            <span class="sidebar-hours">Reservations line · 24/7</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </main>
 {% endblock %}
