@@ -1,4 +1,3 @@
-// Mobile Menu Toggle Script
 document.addEventListener('DOMContentLoaded', function() {
     const headerContent = document.querySelector('.header-content');
     const mainNav = document.querySelector('.main-nav');
