@@ -1,4 +1,3 @@
-from openai import OpenAI
 from django.conf import settings
 from django.utils import timezone
 from django.db.models import Sum, Avg, Count
