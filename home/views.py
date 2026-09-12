@@ -7,8 +7,8 @@ from guests.models import Guest
 from django.http import HttpResponse
 from http import HTTPStatus
 
-def test_view(request):
-    return HttpResponse("Test view is working!", status=HTTPStatus.OK)
+def health(request):
+    return HttpResponse("Health check is working!", status=HTTPStatus.OK)
 # Home Page View
 def home(request):
     return render(request, 'home/home.html')
